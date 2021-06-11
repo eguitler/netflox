@@ -88,7 +88,8 @@ export const StyledNav = styled.nav`
                         & li {
                             width: 100%;
                             padding: 10px 25px;
-
+                            text-align: left;
+                            
                             &:last-child {
                                 border-top: 1px solid #555;
                             }
@@ -217,6 +218,10 @@ export const StyledNav = styled.nav`
                             right: 0;
                             margin-top: 10px;
                             margin-left: 0;
+
+                            /* & li {
+                                text-align: left;
+                            } */
                         }
                     }
                 }
