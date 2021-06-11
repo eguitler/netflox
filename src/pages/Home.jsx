@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import Header from 'layout/Header/Header'
 
 const Home = () => {
+
     return (
-        <div>
-            Home
-        </div>
+        <Fragment>
+            <Header />
+        </Fragment>
     );
 }
  

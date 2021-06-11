@@ -15,7 +15,16 @@ const GlobalStyles = createGlobalStyle`
     
     body {
         background-color: #232323;
-    }
-`
 
-export default GlobalStyles
+        & ul {
+            list-style: none;
+        }
+
+        & a {
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
+`;
+
+export default GlobalStyles;
