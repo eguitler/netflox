@@ -11,10 +11,14 @@ const GlobalStyles = createGlobalStyle`
         -moz-osx-font-smoothing: grayscale;
         
         color: white;
+
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
     }
     
     body {
         background-color: #232323;
+        overflow-x: hidden;
 
         & ul {
             list-style: none;
