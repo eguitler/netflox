@@ -18,17 +18,14 @@ const Carousel = ({
 
     const countItems = newItemList.length;
     const totalGaps = gap * countItems;
-
     const itemsWidth = `calc((100% * ${countItems} + ${totalGaps}px) / ${itemsPerPage})`;
-    const leftOffset = `calc( ${itemsWidth} / ${countItems} * 2)`;
-    const boxOverflow = overflow ? "hidden" : "visible";
 
     const itemsRef = useRef();
     const nextButtonRef = useRef();
     const prevButtonRef = useRef();
-    const paginationRef = useRef();
 
     const countPages = Math.ceil(items.length / itemsPerPage)
+
 
     const nextItem = () => {
         if (currentIndex === 0 && !prevEnabled) setPrevEnabled(true)
@@ -105,10 +102,10 @@ const Carousel = ({
     };
 
     return (
-        <Container overflow={boxOverflow}>
+        <Container>
             <Title><h3>{title}</h3></Title>
-            <Items width={itemsWidth} offset={leftOffset} >
-                <PaginationPages ref={paginationRef}>
+            <Items width={itemsWidth}>
+                <PaginationPages>
                     { countPages > 1 &&
                         Array(countPages).fill('').map((item, i) => (
                             <div key={i} className={`page ${currentPage === i ? 'active' : ''}`}/>
