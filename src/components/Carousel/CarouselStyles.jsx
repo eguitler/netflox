@@ -5,12 +5,6 @@ export const Container = styled.section`
     position: relative;
     margin-bottom: 100px;
     padding-top: 13px;
-
-    & .buttons-wrapper {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-    }
 `;
 
 export const Title = styled.div`
@@ -24,7 +18,7 @@ export const Items = styled.article`
     & .items-wrapper {
         width: ${(props) => props.width};
         display: flex;
-        justify-content: center;
+        justify-content: left;
         gap: 10px;
     }
 `;
@@ -61,24 +55,24 @@ export const Button = styled.button`
     cursor: pointer;
     position: absolute;
     border: none;
-    background-color: transparent;
+    background-color: rgba(1, 1, 1, 0.4);
     transition: background-color 500ms;
     display: flex;
     align-items: center;
     top: 0;
+    border-radius: 5px;
 
-    --width: 60px;
+    --width: 100px;
 
     height: 100%;
     width: var(--width);
 
     & > img {
-        height: 30px;
+        height: 50px;
         opacity: 0;
         filter: invert(0.9);
         pointer-events: none;
         transition: opacity 500ms;
-
     }
 
     &.disabled {

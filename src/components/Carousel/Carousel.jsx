@@ -45,7 +45,7 @@ const Carousel = ({
         const newPage = currentPage + 1 > countPages-1 ? 0 : currentPage + 1
         setCurrentPage(newPage)
 
-        const itemWidth = itemsRef.current.firstChild.offsetWidth + gap;
+        const itemWidth = (itemsRef.current.firstChild.getBoundingClientRect().width + gap).toFixed(2);
         itemsRef.current.style.transition = `1000ms ease`;
         itemsRef.current.style.transform = `translateX(calc(-1 * ${itemWidth}px * ${unitsForwards}))`;
 
