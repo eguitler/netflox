@@ -6,7 +6,6 @@ const Carousel = ({
     itemsPerPage = 6,
     gap = 10,
     infinite = false,
-    overflow = false,
     title = ''
 }) => {
     if (items.length <= itemsPerPage) infinite = false;

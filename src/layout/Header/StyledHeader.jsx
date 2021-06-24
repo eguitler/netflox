@@ -5,9 +5,10 @@ export const StyledHeader = styled.header`
     display: flex;
     justify-content: center;
     position: relative;
+    z-index: 10;
 
     & > .content {
-        width: 95%;
+        width: 90%;
         max-width: 1900px;
         display: flex;
         align-items: center;
@@ -52,7 +53,8 @@ export const StyledNav = styled.nav`
 
             & li {
                 width: fit-content;
-
+                cursor: pointer;
+                
                 & img {
                     margin-left: 5px;
                     height: 10px;
@@ -68,11 +70,10 @@ export const StyledNav = styled.nav`
 
                         position: absolute;
                         top: 100%;
-                        right: 0;
+                        left: 0;
                         margin-top: 10px;
 
                         width: fit-content;
-                        min-width: 150px;
                         max-width: 250px;
 
                         background-color: #333;
@@ -89,14 +90,21 @@ export const StyledNav = styled.nav`
                             width: 100%;
                             padding: 10px 25px;
                             text-align: left;
-                            
+
+                            &:hover {
+                                background-color: #444;
+                            }
                             &:last-child {
                                 border-top: 1px solid #555;
                             }
 
                             & a {
                                 display: block;
-                                width: 100%;
+                                /* width: fit-content; */
+                                /* max-width: 10ch; */
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
                             }
                         }
                     }
@@ -135,6 +143,7 @@ export const StyledNav = styled.nav`
                     display: flex;
                     visibility: visible;
                 }
+
 
                 & li {
                     padding: 15px 35px;

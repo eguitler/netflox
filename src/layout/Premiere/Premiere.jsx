@@ -1,69 +1,48 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "components/Carousel/Carousel";
-import axios from "axios";
 import Movie from "components/Movie/Movie";
+import { fetchingData } from "services/api";
 
-const Premiere = () => {
-    const fetchingData = async (query = "") => {
-        const baseURL = "https://yts.mx/api/v2/list_movies.json";
-        const response = await axios.get(`${baseURL}?${query}`);
-        const movies = await response.data;
-        return movies.data;
+const Premiere = ({ setPremiereList }) => {
+    const [data, setData] = useState(null);
+    const [dataLoaded, setDataLoaded] = useState(false);
+
+    const updateData = () => {
+        setPremiereList(async (list) => {
+            const data = await fetchingData(list.baseURL, list.query);
+            list.movies = data.movies;
+            setData(list);
+            setDataLoaded(true);
+        });
     };
 
-    const [newFilms, setNewFilms] = useState([]);
-    const [horrorFilms, setHorrorFilms] = useState([]);
-    const [fantasyFilms, setFantasyFilms] = useState([]);
-
     useEffect(() => {
-        // Fetching last added
-        fetchingData("limit=30").then((data) => {
-            if (newFilms.length === 0) setNewFilms(data.movies);
-        });
-
-        fetchingData("genre=horror&sort_by=year").then((data) => {
-            if (horrorFilms.length === 0) setHorrorFilms(data.movies);
-        });
-
-        fetchingData("genre=fantasy&sort_by=year").then((data) => {
-            if (fantasyFilms.length === 0) setFantasyFilms(data.movies);
-        });
-    }, [fantasyFilms, horrorFilms, newFilms]);
-
+        try {
+            updateData();
+        } catch (err) {
+            console.log("error:", err);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
-        <div
-            style={{ width: "100%", display: "flex", justifyContent: "center" }}
-        >
-            <div style={{ width: "95%" }}>
+        <div style={{ width: "90%" }}>
+            {!dataLoaded ? (
+                "Loading..."
+            ) : (
                 <Carousel
-                    title="New uploads"
-                    items={newFilms.map((film) => (
+                    title={data.title}
+                    itemsPerPage={data.itemsPerPage}
+                    items={data.movies.map((movie) => (
                         <Movie
-                            src={film.large_cover_image}
-                            id={film.id}
-                            year={film.year}
-                            yt_trailer={film.yt_trailer_code}
+                            src={movie.large_cover_image}
+                            id={movie.id}
+                            year={movie.year}
+                            yt_trailer={movie.yt_trailer_code}
                         />
                     ))}
-                    infinite={true}
+                    infinite={data.infinite}
                 />
-                <Carousel
-                    title="Horror Films"
-                    itemsPerPage={10}
-                    items={horrorFilms.map((film) => (
-                        <Movie src={film.large_cover_image} year={film.year} />
-                    ))}
-                    infinite={true}
-                />
-                <Carousel
-                    title="Fantasy Films"
-                    itemsPerPage={10}
-                    items={fantasyFilms.map((film) => (
-                        <Movie src={film.large_cover_image} year={film.year} />
-                    ))}
-                    infinite={true}
-                />
-            </div>
+            )}
         </div>
     );
 };

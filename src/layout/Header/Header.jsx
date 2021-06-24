@@ -22,11 +22,6 @@ const Header = () => {
                 setShowNavMenu(false);
                 setShowListMenu(false);
             }
-            // console.log('clicked: ', e.target)
-            // console.log('ref: ', dropNavRef.current)
-            // console.log('comapre: ', e.target === dropNavRef.current)
-            // console.log('comapre: ', dropNavRef.current.contains(e.target))
-            // console.log('- - - - - -')
         });
     }, []);
 
@@ -64,9 +59,15 @@ const Header = () => {
                                 </div>
                                 <ul id='myListsDrop' className={showListMenu ? 'active' : ''}>
                                     <li>
-                                        <a href="/#">Lista 1</a>
+                                        <a href="/#">Lista largo simple</a>
                                     </li>
                                     <li>
+                                        <a href="/#">Lista nombre super largo</a>
+                                    </li>
+                                    <li>
+                                        <a href="/#">Lista nombre archi mega re extra largo</a>
+                                    </li>
+                                    <li onClick={ () => alert('new list')}>
                                         <a href="/#">+ New List</a>
                                     </li>
                                 </ul>

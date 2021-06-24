@@ -10,15 +10,15 @@ const Movie = ({ id, src, year, yt_trailer }) => {
         const fetchingData = async (with_images = false, with_cast = false) => {
             const baseURL = `https://yts.mx/api/v2/movie_details.json?movie_id=${id}&with_images=${with_images}&with_cast=${with_cast}`;
             const response = await axios.get(baseURL);
-            const movie = await response.data;
-            return movie;
+            const data = await response.data;
+            return data.data.movie;
         };
 
         fetchingData(true, true).then((data) => {
             if (movieData.length === 0) setMovieData(data);
         });
 
-        if (hover) console.log("movieData: ", movieData);
+        // if (hover) console.log("movieData: ", movieData);
     }, [hover, id, movieData]);
     return (
         <StyledMovie
