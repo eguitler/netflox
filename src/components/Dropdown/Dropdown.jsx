@@ -14,6 +14,7 @@ const Dropdown = ({
     width = "100%",
     maxWidth = "none",
     textWrap = "normal",
+    responsive = null,
 }) => {
     const dropRef = useRef();
     const menuRef = useRef();
@@ -61,6 +62,29 @@ const Dropdown = ({
         }, transitionDelay);
     };
 
+    if (responsive && responsive !== "undefined") {
+        responsive.forEach((setting) => {
+            const respWidth = Object.keys(setting)[0];
+            if (window.matchMedia(`(max-width: ${respWidth}px)`).matches) {
+                const set = setting[respWidth];
+                position =
+                    set.position && set.position !== "undefined"
+                        ? set.position
+                        : position;
+                width =
+                    set.width && set.width !== "undefined" ? set.width : width;
+                maxWidth =
+                    set.maxWidth && set.maxWidth !== "undefined"
+                        ? set.maxWidth
+                        : maxWidth;
+                textWrap =
+                    set.textWrap && set.textWrap !== "undefined"
+                        ? set.textWrap
+                        : textWrap;
+            }
+        });
+    }
+
     const positionFixed = {
         left: position.left ?? "auto",
         top: position.top ?? "auto",
@@ -68,7 +92,6 @@ const Dropdown = ({
         bottom: position.bottom ?? "auto",
     };
 
-    console.log("DATA: ", width, " -- ", maxWidth);
     return (
         <Container
             onMouseEnter={() => openDrop()}
@@ -78,12 +101,13 @@ const Dropdown = ({
             <StyledMenu>{menuItem}</StyledMenu>
             <ContainerTmp ref={dropRef} position={positionFixed}>
                 <StyledDrop width={width} maxWidth={maxWidth}>
-                    {items.map((item) => (
+                    {items.map((item, i) => (
                         <StyledItem
                             onClick={item.onClick}
                             cursorType={item.cursorType ?? "pointer"}
                             className={item.class}
                             textWrap={textWrap}
+                            key={i}
                         >
                             <a href={item.url}>{item.content}</a>
                         </StyledItem>
