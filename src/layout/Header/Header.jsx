@@ -78,6 +78,7 @@ const Header = () => {
                                     items={myListsItems}
                                     maxWidth="500px"
                                     textWrap="nowrap"
+                                    responsive={[{768: {position:{right:0}}}]}
                                 />
                             </li>
                         </ul>

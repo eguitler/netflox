@@ -63,51 +63,6 @@ export const StyledNav = styled.nav`
                 &#myListsWrapper {
                     position: relative;
                     width: fit-content;
-
-                    & ul#myListsDrop {
-                        /* display: none;
-                        visibility: hidden;
-
-                        position: absolute;
-                        top: 100%;
-                        left: 0;
-                        margin-top: 10px;
-
-                        width: fit-content;
-                        max-width: 250px;
-
-                        background-color: #333;
-                        box-shadow: 5px 6px 6px rgba(1, 1, 1, 0.2); 
-
-                        &.active {
-                            visibility: visible;
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: left;
-                        }
-
-                        & li {
-                            width: 100%;
-                            padding: 10px 25px;
-                            text-align: left;
-
-                            &:hover {
-                                background-color: #444;
-                            }
-                            &:last-child {
-                                border-top: 1px solid #555;
-                            }
-
-                            & a {
-                                display: block;
-                                width: fit-content;
-                                max-width: 10ch;
-                                white-space: nowrap;
-                                text-overflow: ellipsis;
-                                overflow: hidden;
-                            }
-                        } */
-                    }
                 }
             }
         }
@@ -145,7 +100,7 @@ export const StyledNav = styled.nav`
                 }
 
 
-                & li {
+                & > li {
                     padding: 15px 35px;
                     height: 100%;
                     width: 100%;
@@ -219,18 +174,6 @@ export const StyledNav = styled.nav`
 
                         & #myListsMenu {
                             padding: 10px 0;
-                        }
-
-                        & ul#myListsDrop {
-                            top: 100%;
-                            left: auto;
-                            right: 0;
-                            margin-top: 10px;
-                            margin-left: 0;
-
-                            /* & li {
-                                text-align: left;
-                            } */
                         }
                     }
                 }
