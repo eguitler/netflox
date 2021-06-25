@@ -32,7 +32,6 @@ export const PaginationPages = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 7px;
-    z-index: 19;
 
     & .page {
         background-color: rgba(255, 255, 255, 0.4);
@@ -90,7 +89,7 @@ export const Button = styled.button`
     &.right {
         right: ${props => `calc( (var(--width) + ${props.margin}px) * -1)`};
         justify-content: flex-start;
-        padding-left: 7px;
+        padding-left: 12px;
 
         & > img {
             transform: rotate(-90deg);
@@ -100,7 +99,7 @@ export const Button = styled.button`
     &.left {
         left: ${props => `calc( (var(--width) + ${props.margin}px) * -1)`};
         justify-content: flex-end;
-        padding-right: 7px;
+        padding-right: 12px;
 
         & > img {
             transform: rotate(90deg);
