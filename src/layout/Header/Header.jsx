@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import {
@@ -7,24 +6,37 @@ import {
     StyledNav,
     StyledLogo,
     StyledUserActions,
-} from "./StyledHeader";
+} from "./HeaderStyles";
+
+import Dropdown from "components/Dropdown/Dropdown";
 
 const Header = () => {
     const [showNavMenu, setShowNavMenu] = useState(false);
-    const [showListMenu, setShowListMenu] = useState(false);
-
     const dropNavRef = useRef();
-    const dropListRef = useRef();
 
-    useEffect(() => {
-        window.addEventListener("click", (e) => {
-            if (!dropNavRef.current.contains(e.target) || e.target === null) {
-                setShowNavMenu(false);
-                setShowListMenu(false);
-            }
-        });
-    }, []);
+    const myListsItems = [
+        {
+            url: "/#",
+            onClick: (e) => {
+                console.log("hola");
+            },
+            content: "here will be your lists!",
+        },
+        { class: "divider" },
+        {
+            onClick: () => alert("Here you will create your own lists!"),
+            content: <p>+ New List</p>,
+        },
+    ];
 
+    const notificationItems = [{ content: "You have no notifications yet!" }];
+
+    const profileItems = [
+        { content: "Profile" },
+        { content: "Settings" },
+        { class: "divider" },
+        { content: "Log Out" },
+    ];
     return (
         <StyledHeader>
             <div className="content">
@@ -52,37 +64,55 @@ const Header = () => {
                             <li>
                                 <a href="/#">TV Shows</a>
                             </li>
-                            <li id='myListsWrapper' ref={dropListRef}>
-                                <div id='myListsMenu' onClick={() => setShowListMenu(!showListMenu)}>
-                                    <a href="/#" >My Lists</a>
-                                    <img src="triangle_arrow.png" alt="" />
-                                </div>
-                                <ul id='myListsDrop' className={showListMenu ? 'active' : ''}>
-                                    <li>
-                                        <a href="/#">Lista largo simple</a>
-                                    </li>
-                                    <li>
-                                        <a href="/#">Lista nombre super largo</a>
-                                    </li>
-                                    <li>
-                                        <a href="/#">Lista nombre archi mega re extra largo</a>
-                                    </li>
-                                    <li onClick={ () => alert('new list')}>
-                                        <a href="/#">+ New List</a>
-                                    </li>
-                                </ul>
+                            <li id="myListsWrapper">
+                                <Dropdown
+                                    menuItem={
+                                        <div id="myListsMenu">
+                                            <a href="/#">My Lists</a>
+                                            <img
+                                                src="triangle_arrow.png"
+                                                alt=""
+                                            />
+                                        </div>
+                                    }
+                                    items={myListsItems}
+                                    maxWidth="500px"
+                                    textWrap="nowrap"
+                                />
                             </li>
                         </ul>
                     </div>
                 </StyledNav>
                 <StyledUserActions>
                     <img id="zoomGlass" src="header/zoomGlass.svg" alt="" />
-                    <img
-                        id="notificationBell"
-                        src="header/notificationBell.svg"
-                        alt=""
+                    <Dropdown
+                        menuItem={
+                            <img
+                                id="notificationBell"
+                                src="header/notificationBell.svg"
+                                alt=""
+                            />
+                        }
+                        items={notificationItems}
+                        width="100%"
+                        maxWidth="350px"
+                        textWrap="nowrap"
+                        position={{ right: 0 }}
                     />
-                    <img id="userProfile" src="header/userProfile.svg" alt="" />
+                    <Dropdown
+                        menuItem={
+                            <img
+                                id="userProfile"
+                                src="header/userProfile.svg"
+                                alt=""
+                            />
+                        }
+                        items={profileItems}
+                        width="100%"
+                        maxWidth="350px"
+                        textWrap="nowrap"
+                        position={{ right: 0 }}
+                    />
                 </StyledUserActions>
             </div>
         </StyledHeader>

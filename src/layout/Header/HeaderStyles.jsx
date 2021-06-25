@@ -65,7 +65,7 @@ export const StyledNav = styled.nav`
                     width: fit-content;
 
                     & ul#myListsDrop {
-                        display: none;
+                        /* display: none;
                         visibility: hidden;
 
                         position: absolute;
@@ -77,7 +77,7 @@ export const StyledNav = styled.nav`
                         max-width: 250px;
 
                         background-color: #333;
-                        box-shadow: 5px 6px 6px rgba(1, 1, 1, 0.2);
+                        box-shadow: 5px 6px 6px rgba(1, 1, 1, 0.2); 
 
                         &.active {
                             visibility: visible;
@@ -100,13 +100,13 @@ export const StyledNav = styled.nav`
 
                             & a {
                                 display: block;
-                                /* width: fit-content; */
-                                /* max-width: 10ch; */
+                                width: fit-content;
+                                max-width: 10ch;
                                 white-space: nowrap;
                                 text-overflow: ellipsis;
                                 overflow: hidden;
                             }
-                        }
+                        } */
                     }
                 }
             }
