@@ -14,11 +14,14 @@ const Movie = ({ id, src, year, yt_trailer }) => {
             return data.data.movie;
         };
 
-        fetchingData(true, true).then((data) => {
-            if (movieData.length === 0) setMovieData(data);
-        });
+        try {
+            fetchingData(true, true).then((data) => {
+                if (movieData.length === 0) setMovieData(data);
+            });
+        } catch (err) {
+            console.log('err: ', err)
+        }
 
-        // if (hover) console.log("movieData: ", movieData);
     }, [hover, id, movieData]);
     return (
         <StyledMovie
