@@ -6,6 +6,16 @@ export const Container = styled.div`
 
 export const StyledMenu = styled.div`
     cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    padding: ${(props) => (props.nestedDropdown ? "10px 25px" : "0")};
+    width: 100%;
+
+    span {
+        display: flex;
+        place-items: center;
+    }
 `;
 
 export const ContainerTmp = styled.div`
@@ -24,7 +34,7 @@ export const ContainerTmp = styled.div`
 export const StyledDrop = styled.ul`
     width: ${(props) => props.width};
     max-width: ${(props) => props.maxWidth};
-    overflow: hidden;
+    /* overflow: hidden; */
 
     background-color: #333;
     box-shadow: 5px 6px 6px rgba(1, 1, 1, 0.2);
@@ -43,15 +53,16 @@ export const StyledItem = styled.li`
         background-color: #444;
     }
 
-    & a {
+    & > a {
         cursor: ${(props) => props.cursorType};
         display: block;
-        overflow: hidden;
-        padding: 10px 25px;
+        padding: ${(props) => props.dropChild};
+
+        /* overflow: hidden; */
         user-select: none;
 
         text-overflow: ellipsis;
-        white-space: ${props => props.textWrap};
+        white-space: ${(props) => props.textWrap};
         /* width: 5ch; */
     }
 

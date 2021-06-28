@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import {
@@ -11,8 +11,14 @@ import {
 import Dropdown from "components/Dropdown/Dropdown";
 
 const Header = () => {
-    const [showNavMenu, setShowNavMenu] = useState(false);
     const dropNavRef = useRef();
+
+    const [showDiscoveryMenu, setShowDiscoveryMenu] = useState(
+        window.innerWidth <= 1024 && window.innerWidth > 768
+    );
+    const [showMobileMenu, setShowMobileMenu] = useState(
+        window.innerWidth <= 768
+    );
 
     const myListsItems = [
         {
@@ -37,6 +43,59 @@ const Header = () => {
         { class: "divider" },
         { content: "Log Out" },
     ];
+
+    const discoveryItems = [
+        { content: "Home" },
+        { content: "Movies" },
+        { content: "TV Shows" },
+        {
+            content: (
+                <Dropdown
+                    menuItem={"My Lists"}
+                    items={myListsItems}
+                    maxWidth="500px"
+                    textWrap="nowrap"
+                    position={{ left: "105%", top: "-10px" }}
+                    addTriangle={true}
+                    triangleRotation="-90"
+                    nestedDropdown={true}
+                    // responsive={[{ 768: { position: { left: 0, top: 0 } } }]}
+                />
+            ),
+        },
+    ];
+
+    const menuItems = [
+        { content: "Home" },
+        { content: "Movies" },
+        { content: "TV Shows" },
+        {
+            content: (
+                <Dropdown
+                    menuItem={"My Lists"}
+                    items={myListsItems}
+                    maxWidth="500px"
+                    textWrap="nowrap"
+                    position={
+                        showMobileMenu
+                            ? { top: "100%", right: "0" }
+                            : { top: "100%", left: "0" }
+                    }
+                    addTriangle={true}
+                    triangleRotation="-180"
+                    // responsive={[{ 768: { position: { left: 0, top: 0 } } }]}
+                />
+            ),
+        },
+    ];
+
+    useEffect(() => {
+        window.addEventListener("resize", () => {
+            const screenW = window.innerWidth;
+            setShowDiscoveryMenu(screenW <= 1024 && screenW > 768);
+            setShowMobileMenu(screenW <= 768);
+        });
+    }, []);
     return (
         <StyledHeader>
             <div className="content">
@@ -47,41 +106,24 @@ const Header = () => {
                 </StyledLogo>
                 <StyledNav>
                     <div className="content" ref={dropNavRef}>
-                        <div
-                            className="navMenu1024"
-                            onClick={() => setShowNavMenu(!showNavMenu)}
-                        >
-                            <a href="/#">Discover</a>
-                            <img src="triangle_arrow.png" alt="" />
-                        </div>
-                        <ul className={showNavMenu ? "active" : ""}>
-                            <li className="hideMobile">
-                                <a href="/#">Home</a>
-                            </li>
-                            <li>
-                                <a href="/#">Movies</a>
-                            </li>
-                            <li>
-                                <a href="/#">TV Shows</a>
-                            </li>
-                            <li id="myListsWrapper">
-                                <Dropdown
-                                    menuItem={
-                                        <div id="myListsMenu">
-                                            <a href="/#">My Lists</a>
-                                            <img
-                                                src="triangle_arrow.png"
-                                                alt=""
-                                            />
-                                        </div>
-                                    }
-                                    items={myListsItems}
-                                    maxWidth="500px"
-                                    textWrap="nowrap"
-                                    responsive={[{768: {position:{right:0}}}]}
-                                />
-                            </li>
-                        </ul>
+                        {showDiscoveryMenu ? (
+                            <Dropdown
+                                menuItem={"Discover"}
+                                items={discoveryItems}
+                                width="100%"
+                                textWrap="nowrap"
+                                addTriangle={true}
+                                triangleRotation="-180"
+                            />
+                        ) : (
+                            <ul>
+                                {menuItems.map((item, i) => (
+                                    <li key={i}>
+                                        {item.content}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 </StyledNav>
                 <StyledUserActions>

@@ -37,90 +37,23 @@ export const StyledNav = styled.nav`
     flex-grow: 100;
     position: relative;
     height: fit-content;
+    user-select: none;
 
     & > .content {
         width: fit-content;
-
-        & .navMenu1024 {
-            display: none;
-            visibility: hidden;
-        }
 
         & > ul {
             display: flex;
             align-items: center;
             gap: 30px;
 
-            & li {
-                width: fit-content;
+            & > li {
+                width: fit-content !important;
                 cursor: pointer;
-                
-                & img {
+
+                & > img {
                     margin-left: 5px;
                     height: 10px;
-                }
-
-                &#myListsWrapper {
-                    position: relative;
-                    width: fit-content;
-                }
-            }
-        }
-    }
-
-    @media screen and (max-width: 1024px) {
-        & > .content {
-            & .navMenu1024 {
-                display: block;
-                visibility: visible;
-                width: fit-content;
-
-                & img {
-                    margin-left: 5px;
-                    height: 10px;
-                }
-            }
-
-            & > ul {
-                display: none;
-                visibility: hidden;
-
-                position: absolute;
-                flex-direction: column;
-                align-items: start;
-                margin-top: 5px;
-
-                background-color: #333;
-                box-shadow: 5px 6px 6px rgba(1, 1, 1, 0.2);
-                gap:0;
-
-                &.active {
-                    display: flex;
-                    visibility: visible;
-                }
-
-
-                & > li {
-                    padding: 15px 35px;
-                    height: 100%;
-                    width: 100%;
-
-                    &#myListsWrapper {
-                        position: static;
-                        padding: 0;
-
-                        & #myListsMenu {
-                            display: block;
-                            padding: 15px 35px;
-                        }
-
-                        & ul#myListsDrop {
-                            top: 0;
-                            left: 100%;
-                            margin-top: 0;
-                            margin-left: 10px;
-                        }
-                    }
                 }
             }
         }
@@ -131,7 +64,6 @@ export const StyledNav = styled.nav`
         width: 100%;
         top: 100%;
         left: 0;
-        bottom: -5px;
         margin-left: 0;
 
         & > .content {
@@ -139,45 +71,20 @@ export const StyledNav = styled.nav`
             justify-content: center;
             width: 100%;
 
-            & .navMenu1024 {
-                display: none;
-                visibility: hidden;
-            }
-
-            & .hideMobile {
-                display: none;
-                visibility: hidden;
-            }
-
             & > ul {
+                width: 60%;
                 display: flex;
-                visibility: visible;
-
-                margin-top: 0;
-                width: 85%;
-                max-width: calc(768px / 1.5);
-                min-width: 300px;
                 justify-content: space-between;
-                flex-direction: row;
 
-                padding: 0;
-                background-color: transparent;
-                box-shadow: none;
+                & > li:first-child {
+                    display: none;
+                }
 
                 & > li {
-                    padding: 10px 0;
-                    text-align: center;
-
-                    &#myListsWrapper {
-                        position: relative;
-                        width: 100%;
-
-                        & #myListsMenu {
-                            padding: 10px 0;
-                        }
-                    }
+                    min-width: fit-content;
                 }
             }
+
         }
     }
 `;
