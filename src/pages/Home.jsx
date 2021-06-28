@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React, { Fragment, useState } from "react";
 import Header from "layout/Header/Header";
 import Premiere from "layout/Premiere/Premiere";
