@@ -10,6 +10,11 @@ import {
 
 import Dropdown from "components/Dropdown/Dropdown";
 
+const BG_COLOR = {
+    transparent: "transparent",
+    dark: "#050505",
+};
+
 const Header = () => {
     const dropNavRef = useRef();
 
@@ -19,6 +24,8 @@ const Header = () => {
     const [showMobileMenu, setShowMobileMenu] = useState(
         window.innerWidth <= 768
     );
+
+    const [bgColor, setBgColor] = useState(BG_COLOR.transparent);
 
     const myListsItems = [
         {
@@ -90,6 +97,18 @@ const Header = () => {
     ];
 
     useEffect(() => {
+        const updateBg = () => {
+            window.addEventListener("scroll", () => {
+                const scrollY = window.scrollY;
+                if (scrollY > 100) {
+                    setBgColor(BG_COLOR.dark);
+                } else {
+                    setBgColor(BG_COLOR.transparent);
+                }
+            });
+        };
+
+        updateBg();
         window.addEventListener("resize", () => {
             const screenW = window.innerWidth;
             setShowDiscoveryMenu(screenW <= 1024 && screenW > 768);
@@ -97,7 +116,7 @@ const Header = () => {
         });
     }, []);
     return (
-        <StyledHeader>
+        <StyledHeader bgColor={bgColor}>
             <div className="content">
                 <StyledLogo>
                     <a href="/#">
@@ -118,9 +137,7 @@ const Header = () => {
                         ) : (
                             <ul>
                                 {menuItems.map((item, i) => (
-                                    <li key={i}>
-                                        {item.content}
-                                    </li>
+                                    <li key={i}>{item.content}</li>
                                 ))}
                             </ul>
                         )}

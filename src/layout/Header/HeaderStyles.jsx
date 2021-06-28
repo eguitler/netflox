@@ -2,10 +2,14 @@ import styled from "styled-components";
 
 export const StyledHeader = styled.header`
     height: 70px;
+    position: sticky;
     display: flex;
     justify-content: center;
-    position: relative;
+    top: 0;
+    left: 0;
     z-index: 10;
+    transition: background-color .3s;
+    background-color: ${props => props.bgColor};
 
     & > .content {
         width: 90%;
