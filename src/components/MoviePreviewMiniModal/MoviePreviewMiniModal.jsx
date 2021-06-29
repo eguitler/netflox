@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { StyledMiniModal } from "./MoviePreviewMiniModalStyles";
 
 const MoviePreviewMiniModal = ({ active, itemW, itemH, movieData }) => {
@@ -34,10 +34,10 @@ const MoviePreviewMiniModal = ({ active, itemW, itemH, movieData }) => {
             </div>
             <div className="info-description">
                 <div className='title-genres-wrapper'>
-                    <p className="title">{movieData.title}</p>
+                    <p className="title" title={movieData.title}>{movieData.title}</p>
                     <div className="year-genres">
                         <p>{movieData.year}</p>
-                        {movieData.genres.map((genre) => (
+                        {movieData.genres.slice(0,4).map((genre) => (
                             <p>{genre}</p>
                         ))}
                     </div>
