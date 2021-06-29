@@ -18,8 +18,14 @@ const GlobalStyles = createGlobalStyle`
     
     body {
         background-color: #232323;
-        overflow-x: hidden;
 
+        & #root {
+        overflow-x: hidden;
+        /* border: 1px solid */
+
+        }
+        /* overflow-x: hidden; */
+        /* border: 1px solid; */
         & ul {
             list-style: none;
         }
