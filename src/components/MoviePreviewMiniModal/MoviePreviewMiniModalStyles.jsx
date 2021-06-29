@@ -57,6 +57,9 @@ export const StyledMiniModal = styled.div`
         & .title-genres-wrapper {
             & .title {
                 font-size: 1.8em;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
             & .year-genres {
                 display: flex;
