@@ -1,10 +1,21 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyledMovie } from "./MovieStyles";
+import MoviePreviewMiniModal from "components/MoviePreviewMiniModal/MoviePreviewMiniModal";
 
-const Movie = ({ id, src, year, yt_trailer }) => {
+const Movie = ({ id, src }) => {
     const [movieData, setMovieData] = useState([]);
     const [hover, setHover] = useState(false);
+    const movieRef = useRef();
+
+    const getHeight = () => {
+        if (movieRef.current)
+            return movieRef.current.getBoundingClientRect().height;
+    };
+    const getWidth = () => {
+        if (movieRef.current)
+            return movieRef.current.getBoundingClientRect().width;
+    };
 
     useEffect(() => {
         const fetchingData = async (with_images = false, with_cast = false) => {
@@ -19,37 +30,23 @@ const Movie = ({ id, src, year, yt_trailer }) => {
                 if (movieData.length === 0) setMovieData(data);
             });
         } catch (err) {
-            console.log('err: ', err)
+            console.log("err: ", err);
         }
-
-    }, [hover, id, movieData]);
+    }, [id, movieData]);
     return (
         <StyledMovie
             onMouseOver={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
+            ref={movieRef}
         >
             <img className="movie-cover" src={src} alt="" loading="lazy" />
-            <p>{year}</p>
-
             {hover && (
-                <div
-                    style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        border: "1px solid",
-                        top: "0",
-                        left: "0",
-                    }}
-                >
-                    {/* {   yt_trailer &&
-                        <iframe
-                            title="Trailer"
-                            width= "100%"
-                            src={`https://www.youtube.com/embed/${yt_trailer}`}
-                        ></iframe>
-                    } */}
-                </div>
+                <MoviePreviewMiniModal
+                    active={hover}
+                    itemH={getHeight()}
+                    itemW={getWidth()}
+                    movieData={movieData}
+                />
             )}
         </StyledMovie>
     );
