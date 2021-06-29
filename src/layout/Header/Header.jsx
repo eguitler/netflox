@@ -30,9 +30,6 @@ const Header = () => {
     const myListsItems = [
         {
             url: "/#",
-            onClick: (e) => {
-                console.log("hola");
-            },
             content: "here will be your lists!",
         },
         { class: "divider" },
