@@ -19,7 +19,7 @@ const Home = () => {
         {
             id:"01",
             title: "Horror Movies",
-            itemsPerPage: 12,
+            itemsPerPage: 10,
             movies: [],
             infinite: true,
             baseURL: "https://yts.mx/api/v2/list_movies.json",
@@ -28,7 +28,7 @@ const Home = () => {
         {
             id:"02",
             title: "Fantasy Movies",
-            itemsPerPage: 12,
+            itemsPerPage: 10,
             movies: [],
             infinite: true,
             baseURL: "https://yts.mx/api/v2/list_movies.json",
