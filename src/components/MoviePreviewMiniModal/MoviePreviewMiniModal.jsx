@@ -55,7 +55,7 @@ const MoviePreviewMiniModal = ({ active, itemW, itemH, movieData }) => {
                     </p>
                     <div className="year-genres">
                         <p>{movieData.year}</p>
-                        {movieData.genres.slice(0, 4).map((genre) => (
+                        {movieData.genres.slice(0, 3).map((genre) => (
                             <p>{genre}</p>
                         ))}
                     </div>
