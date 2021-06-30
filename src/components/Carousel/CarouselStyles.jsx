@@ -44,6 +44,11 @@ export const PaginationPages = styled.div`
             background-color: rgba(255, 255, 255, 0.85);
         }
     }
+
+    @media (max-width: 1024px) {
+        display: none;
+        visibility: hidden;
+    }
 `;
 
 export const Item = styled.article`
@@ -104,5 +109,9 @@ export const Button = styled.button`
         & > img {
             transform: rotate(90deg);
         }
+    }
+    @media (max-width: 1024px) {
+        display: none;
+        visibility: hidden;
     }
 `;

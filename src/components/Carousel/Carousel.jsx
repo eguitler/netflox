@@ -164,6 +164,31 @@ const Carousel = ({
         });
     };
 
+    /* MOBILE/TABLET TOUCH */
+
+    const [touchPosition, setTouchPosition] = useState(0);
+    const [touchDistance, setTouchDistance] = useState(0);
+    const [originalOffset, setOriginalOffset] = useState(0);
+
+    const handleTouchPosition = (e) => {
+        setTouchPosition(e.touches[0].clientX);
+    };
+
+    const handleTouch = (e) => {
+        const moveX = e.touches[0].clientX;
+        const distance = moveX - touchPosition;
+        if (originalOffset + distance <= 0) {
+            itemsRef.current.style.transform = `translateX(${
+                originalOffset + distance
+            }px)`;
+            setTouchDistance(distance);
+        }
+    };
+
+    const handleTouchEnd = () => {
+        setOriginalOffset(originalOffset + touchDistance);
+    };
+
     useEffect(() => {
         window.addEventListener("resize", () => {
             setItemsPerPage(getCurrentItemsCount());
@@ -189,7 +214,13 @@ const Carousel = ({
                             ))}
                 </PaginationPages>
 
-                <div className="items-wrapper" ref={itemsRef}>
+                <div
+                    className="items-wrapper"
+                    ref={itemsRef}
+                    onTouchStart={(e) => handleTouchPosition(e)}
+                    onTouchMove={(e) => handleTouch(e)}
+                    onTouchEnd={() => handleTouchEnd()}
+                >
                     {newItemList.map((item, i) => (
                         <Item key={i} gap={gap}>
                             {item}
