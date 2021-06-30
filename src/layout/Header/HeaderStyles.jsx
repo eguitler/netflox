@@ -10,6 +10,7 @@ export const StyledHeader = styled.header`
     z-index: 10;
     transition: background-color .3s;
     background-color: ${props => props.bgColor};
+    margin-bottom: 30px;
 
     & > .content {
         width: 90%;
