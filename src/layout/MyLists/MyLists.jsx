@@ -39,9 +39,8 @@ const MyLists = ({ setListsToShow }) => {
                           items={list.movies.map((movie) => (
                               <Movie
                                   src={movie.large_cover_image}
+                                  srcset={`${movie.medium_cover_image} 1024w`}
                                   id={movie.id}
-                                  year={movie.year}
-                                  yt_trailer={movie.yt_trailer_code}
                               />
                           ))}
                           infinite={list.infinite}

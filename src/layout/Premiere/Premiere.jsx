@@ -5,28 +5,28 @@ import { fetchingData } from "services/api";
 
 const Premiere = ({ setPremiereList }) => {
     const [data, setData] = useState(null);
-    const [dataLoaded, setDataLoaded] = useState(false);
 
     const updateData = () => {
         setPremiereList(async (list) => {
             const data = await fetchingData(list.baseURL, list.query);
             list.movies = data.movies;
             setData(list);
-            setDataLoaded(true);
         });
     };
 
     useEffect(() => {
-        try {
-            updateData();
-        } catch (err) {
-            console.log("error:", err);
+        if (!data) {
+            try {
+                updateData();
+            } catch (err) {
+                console.log("error:", err);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <div style={{ width: "90%" }}>
-            {!dataLoaded ? (
+            {!data ? (
                 "Loading..."
             ) : (
                 <Carousel
@@ -34,9 +34,8 @@ const Premiere = ({ setPremiereList }) => {
                     items={data.movies.map((movie) => (
                         <Movie
                             src={movie.large_cover_image}
+                            srcset={`${movie.medium_cover_image} 1024w`}
                             id={movie.id}
-                            year={movie.year}
-                            yt_trailer={movie.yt_trailer_code}
                         />
                     ))}
                     infinite={data.infinite}

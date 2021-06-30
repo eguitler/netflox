@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyledMovie } from "./MovieStyles";
 import MoviePreviewMiniModal from "components/MoviePreviewMiniModal/MoviePreviewMiniModal";
 
-const Movie = ({ id, src }) => {
+const Movie = ({ id, src, srcset }) => {
     const [movieData, setMovieData] = useState(null);
     const [hover, setHover] = useState(false);
     const movieRef = useRef();
@@ -39,7 +39,7 @@ const Movie = ({ id, src }) => {
             onMouseLeave={() => setHover(false)}
             ref={movieRef}
         >
-            <img className="movie-cover" src={src} alt="" loading="lazy" />
+            <img className="movie-cover" src={src} srcset={srcset} alt="" loading="lazy" />
             {hover &&
                 <MoviePreviewMiniModal
                     active={hover}
