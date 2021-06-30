@@ -36,7 +36,6 @@ const MyLists = ({ setListsToShow }) => {
                       <Carousel
                           key={list.id}
                           title={list.title}
-                          itemsPerPage={list.itemsPerPage}
                           items={list.movies.map((movie) => (
                               <Movie
                                   src={movie.large_cover_image}
