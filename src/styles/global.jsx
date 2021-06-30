@@ -20,12 +20,10 @@ const GlobalStyles = createGlobalStyle`
         background-color: #232323;
 
         & #root {
-        overflow-x: hidden;
-        /* border: 1px solid */
-
+            overflow-x: hidden;
+            min-height: 100vh;
         }
-        /* overflow-x: hidden; */
-        /* border: 1px solid; */
+
         & ul {
             list-style: none;
         }
