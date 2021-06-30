@@ -3,12 +3,11 @@ import styled from "styled-components";
 export const Container = styled.section`
     width: 100%;
     position: relative;
-    margin-bottom: 100px;
     padding-top: 13px;
 `;
 
 export const Title = styled.div`
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 5px;
 `;
 
