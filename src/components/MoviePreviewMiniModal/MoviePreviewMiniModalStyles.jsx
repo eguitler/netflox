@@ -14,6 +14,7 @@ export const StyledMiniModal = styled.div`
     opacity: 0;
     display: none;
     visibility: hidden;
+    user-select: none;
 
     & .trailer-wrapper {
         width: 100%;
@@ -95,17 +96,43 @@ export const StyledMiniModal = styled.div`
 
             & a {
                 border-radius: 5px;
-                background-color: #5e52c5;
-                padding: 10px 30px;
+                border: 2px solid #6e63d3;
+                padding: 15px 30px;
                 height: 100%;
 
                 display: flex;
                 justify-content: baseline;
                 gap: 5px;
 
+                transition: all 0.3s;
+                color: #b3aaff;
+
                 & img {
                     height: 20px;
-                    filter: invert(1);
+                    filter: invert(62%) sepia(48%) saturate(586%)
+                        hue-rotate(204deg) brightness(103%) contrast(109%);
+                    transition: all 0.3s;
+                }
+
+                &.disabled {
+                    background-color: #808080;
+                    border: 2px solid gray;
+                    cursor: not-allowed;
+                    color: #cccbcb;
+                    pointer-events: none;
+
+                    & img {
+                        display: none;
+                    }
+                }
+
+                &:hover {
+                    background-color: #5e52c5;
+                    color: white;
+
+                    & img {
+                        filter: invert(1);
+                    }
                 }
             }
         }

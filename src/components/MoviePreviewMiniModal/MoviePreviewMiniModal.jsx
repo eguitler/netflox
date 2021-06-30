@@ -2,6 +2,25 @@ import React from "react";
 import { StyledMiniModal } from "./MoviePreviewMiniModalStyles";
 
 const MoviePreviewMiniModal = ({ active, itemW, itemH, movieData }) => {
+    const emptyData = {
+        title: "Loading data...",
+        yt_trailer_code: "",
+        torrents: [],
+        torrent: { url: "", size: "" },
+        year: "",
+        genres: [],
+        description_intro: "",
+    };
+
+    if (!movieData) movieData = emptyData;
+
+    movieData.yt_trailer_code =
+        movieData.yt_trailer_code ?? emptyData.yt_trailer_code;
+    movieData.torrent =
+        movieData.torrents.length > 0
+            ? movieData.torrents[0]
+            : emptyData.torrent;
+
     const getPosY = () => {
         const difference = Math.abs(400 - itemH) / 2;
         const value = 400 > itemH ? -difference : difference;
@@ -13,9 +32,6 @@ const MoviePreviewMiniModal = ({ active, itemW, itemH, movieData }) => {
         return value;
     };
 
-    const trailerCode = movieData.yt_trailer_code ?? null;
-    const torrent = movieData.torrents ? movieData.torrents[0] : null;
-
     return (
         <StyledMiniModal
             className={active ? "active" : ""}
@@ -23,7 +39,7 @@ const MoviePreviewMiniModal = ({ active, itemW, itemH, movieData }) => {
             posY={getPosY()}
         >
             <div className="trailer-wrapper">
-                {trailerCode ? (
+                {movieData.yt_trailer_code ? (
                     <iframe
                         title="Trailer"
                         src={`https://www.youtube.com/embed/${movieData.yt_trailer_code}`}
@@ -33,11 +49,13 @@ const MoviePreviewMiniModal = ({ active, itemW, itemH, movieData }) => {
                 )}
             </div>
             <div className="info-description">
-                <div className='title-genres-wrapper'>
-                    <p className="title" title={movieData.title}>{movieData.title}</p>
+                <div className="title-genres-wrapper">
+                    <p className="title" title={movieData.title}>
+                        {movieData.title}
+                    </p>
                     <div className="year-genres">
                         <p>{movieData.year}</p>
-                        {movieData.genres.slice(0,4).map((genre) => (
+                        {movieData.genres.slice(0, 4).map((genre) => (
                             <p>{genre}</p>
                         ))}
                     </div>
@@ -46,9 +64,15 @@ const MoviePreviewMiniModal = ({ active, itemW, itemH, movieData }) => {
                     <p>{movieData.description_intro}</p>
                 </div>
                 <div className="button-wrapper">
-                    <a href={torrent.url} download>
+                    <a
+                        href={movieData.torrent.url}
+                        className={!movieData.torrent ? "disabled" : ""}
+                        download
+                    >
                         <img src="icons/download.svg" alt="" />
-                        {torrent ? `.torrent (${torrent.size})` : "NO TORRENTS"}
+                        {movieData.torrent
+                            ? `.torrent (${movieData.torrent.size})`
+                            : "NO TORRENT"}
                     </a>
                 </div>
             </div>

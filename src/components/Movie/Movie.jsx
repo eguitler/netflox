@@ -4,7 +4,7 @@ import { StyledMovie } from "./MovieStyles";
 import MoviePreviewMiniModal from "components/MoviePreviewMiniModal/MoviePreviewMiniModal";
 
 const Movie = ({ id, src }) => {
-    const [movieData, setMovieData] = useState([]);
+    const [movieData, setMovieData] = useState(null);
     const [hover, setHover] = useState(false);
     const movieRef = useRef();
 
@@ -25,14 +25,14 @@ const Movie = ({ id, src }) => {
             return data.data.movie;
         };
 
-        try {
-            fetchingData(true, true).then((data) => {
-                if (movieData.length === 0) setMovieData(data);
-            });
-        } catch (err) {
-            console.log("err: ", err);
+        if (hover && !movieData) {
+            try {
+                fetchingData(true, true).then((data) => setMovieData(data));
+            } catch (err) {
+                console.log("err: ", err);
+            }
         }
-    }, [id, movieData]);
+    }, [hover, id, movieData]);
     return (
         <StyledMovie
             onMouseOver={() => setHover(true)}
@@ -40,14 +40,14 @@ const Movie = ({ id, src }) => {
             ref={movieRef}
         >
             <img className="movie-cover" src={src} alt="" loading="lazy" />
-            {hover && (
+            {hover &&
                 <MoviePreviewMiniModal
                     active={hover}
                     itemH={getHeight()}
                     itemW={getWidth()}
                     movieData={movieData}
                 />
-            )}
+            }
         </StyledMovie>
     );
 };
