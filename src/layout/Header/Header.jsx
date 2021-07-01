@@ -93,6 +93,22 @@ const Header = () => {
         },
     ];
 
+    const [searchInput, setSearchInput] = useState("");
+    const [activeSearch, setActiveSearch] = useState(false);
+    const [mobileSearch, setMobileSearch] = useState(false);
+
+    const handleSeachBox = () => {
+        if (!activeSearch && !showMobileMenu) setActiveSearch(true);
+        if (!mobileSearch && showMobileMenu) setMobileSearch(true);
+        if ((activeSearch || mobileSearch) && !searchInput) closeSeachBox();
+    };
+
+    const closeSeachBox = () => {
+        setSearchInput("");
+        if (activeSearch) setActiveSearch(false)
+        if (mobileSearch) setMobileSearch(false)
+    };
+
     useEffect(() => {
         const updateBg = () => {
             window.addEventListener("scroll", () => {
@@ -141,7 +157,35 @@ const Header = () => {
                     </div>
                 </StyledNav>
                 <StyledUserActions>
-                    <img id="zoomGlass" src="header/zoomGlass.svg" alt="" />
+                    <div className="search-wrapper">
+                        <form
+                            className={`search-form ${
+                                activeSearch ? "active" : ""
+                            }  `}
+                            action=""
+                        >
+                            <img
+                                id="zoomGlass"
+                                src="header/zoomGlass.svg"
+                                alt=""
+                                onClick={() => handleSeachBox()}
+                            />
+                            <input
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
+                                type="text"
+                                placeholder="Search movies..."
+                            />
+                            {(!showMobileMenu && searchInput) && (
+                                <img
+                                    id="close"
+                                    src="icons/close.svg"
+                                    alt=""
+                                    onClick={() => closeSeachBox()}
+                                />
+                            )}
+                        </form>
+                    </div>
                     <Dropdown
                         menuItem={
                             <img
@@ -172,6 +216,37 @@ const Header = () => {
                     />
                 </StyledUserActions>
             </div>
+            {showMobileMenu &&
+                <div className={`mobile-search ${mobileSearch ? 'active' : ''  }`}>
+                    <form
+                            className={`search-form ${
+                                activeSearch ? "active" : ""
+                            }  `}
+                            action=""
+                        >
+                            {/* <img
+                                id="zoomGlass"
+                                src="header/zoomGlass.svg"
+                                alt=""
+                                onClick={() => handleSeachBox()}
+                            /> */}
+                            <input
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
+                                type="text"
+                                placeholder="Search movies..."
+                            />
+                            {searchInput &&
+                                <img
+                                    id="close"
+                                    src="icons/close.svg"
+                                    alt=""
+                                    onClick={() => closeSeachBox()}
+                                />
+                            }
+                        </form>
+                </div>
+            }
         </StyledHeader>
     );
 };
