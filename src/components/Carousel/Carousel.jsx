@@ -178,9 +178,9 @@ const Carousel = ({
         const moveX = e.touches[0].clientX;
         const distance = moveX - touchPosition;
         if (originalOffset + distance <= 0) {
-            itemsRef.current.style.transform = `translateX(${
+            itemsRef.current.style.marginLeft = `${
                 originalOffset + distance
-            }px)`;
+            }px`;
             setTouchDistance(distance);
         }
     };
