@@ -113,7 +113,7 @@ const Header = () => {
         const updateBg = () => {
             window.addEventListener("scroll", () => {
                 const scrollY = window.scrollY;
-                if (scrollY > 100) {
+                if (scrollY > 50) {
                     setBgColor(BG_COLOR.dark);
                 } else {
                     setBgColor(BG_COLOR.transparent);
@@ -136,7 +136,7 @@ const Header = () => {
                         <img src="header/netfloxLogo.png" alt="" />
                     </a>
                 </StyledLogo>
-                <StyledNav>
+                <StyledNav bgColor={bgColor}>
                     <div className="content" ref={dropNavRef}>
                         {showDiscoveryMenu ? (
                             <Dropdown

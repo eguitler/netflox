@@ -119,6 +119,9 @@ export const StyledNav = styled.nav`
         top: 100%;
         left: 0;
         margin-left: 0;
+        background-color: ${props => props.bgColor};
+        transition: background-color 0.3s;
+        padding-bottom: 10px;
 
         & > .content {
             display: flex;
