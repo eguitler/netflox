@@ -4,6 +4,7 @@ import React, { Fragment, useState } from "react";
 import Header from "layout/Header/Header";
 import Premiere from "layout/Premiere/Premiere";
 import MyLists from "layout/MyLists/MyLists";
+import Footer from "layout/Footer/Footer";
 
 const Home = () => {
     const [premiereList, setPremiereList] = useState({
@@ -17,7 +18,7 @@ const Home = () => {
 
     const [listsToShow, setListsToShow] = useState([
         {
-            id:"01",
+            id: "01",
             title: "Horror Movies",
             itemsPerPage: 10,
             movies: [],
@@ -26,7 +27,7 @@ const Home = () => {
             query: "limit=30&genre=horror&sort_by=year",
         },
         {
-            id:"02",
+            id: "02",
             title: "Fantasy Movies",
             itemsPerPage: 10,
             movies: [],
@@ -37,7 +38,7 @@ const Home = () => {
     ]);
 
     return (
-        <Fragment>
+        <>
             <Header />
             <div
                 style={{
@@ -45,12 +46,17 @@ const Home = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    gap: "50px",
+                    minHeight: "100vh",
+                    overflowX: "hidden",
+                    paddingBottom: "80px",
                 }}
             >
                 <Premiere setPremiereList={setPremiereList} />
                 <MyLists setListsToShow={setListsToShow} />
             </div>
-        </Fragment>
+            <Footer />
+        </>
     );
 };
 

@@ -19,11 +19,6 @@ const GlobalStyles = createGlobalStyle`
     body {
         background-color: #232323;
 
-        & #root {
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
         & ul {
             list-style: none;
         }
