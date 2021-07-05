@@ -11,7 +11,7 @@ import {
 const Carousel = ({
     items = [],
     gap = 10,
-    infinite = false,
+    infinite = true,
     title = "",
     responsive = null,
 }) => {
@@ -50,18 +50,24 @@ const Carousel = ({
         return itemsPerPageTmp;
     };
 
-    const [itemsPerPage, setItemsPerPage] = useState(getCurrentItemsCount);
+    const [itemsPerPage, setItemsPerPage] = useState(getCurrentItemsCount());
 
     if (items.length <= itemsPerPage) infinite = false;
-    let newItemList = infinite ? [...items, ...items] : [...items];
+
+    let originalList = items.map((item) => {
+        return { id: item.props.id, item };
+    });
+    let copyList = items.map((item) => {
+        return { id: `${item.props.id}-c`, item };
+    });
+    let newItemList = infinite
+        ? [...originalList, ...copyList]
+        : [...originalList];
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [prevEnabled, setPrevEnabled] = useState(false);
-
-    const countItems = newItemList.length;
-    const totalGaps = gap * countItems;
-    const itemsWidth = `calc((100% * ${countItems} + ${totalGaps}px) / ${itemsPerPage})`;
+    const [coverW, setCoverW] = useState(0);
 
     const itemsRef = useRef();
     const nextButtonRef = useRef();
@@ -189,9 +195,22 @@ const Carousel = ({
         setOriginalOffset(originalOffset + touchDistance);
     };
 
+
     useEffect(() => {
+        if (coverW === 0) {
+            setCoverW(
+                (itemsRef?.current?.getBoundingClientRect().width + gap) /
+                    getCurrentItemsCount() -
+                    gap
+            );
+        }
         window.addEventListener("resize", () => {
             setItemsPerPage(getCurrentItemsCount());
+            setCoverW(
+                (itemsRef?.current?.getBoundingClientRect().width + gap) /
+                    getCurrentItemsCount() -
+                    gap
+            );
         });
     }, []);
     return (
@@ -199,7 +218,7 @@ const Carousel = ({
             <Title>
                 <h3>{title}</h3>
             </Title>
-            <Items width={itemsWidth}>
+            <Items>
                 <PaginationPages>
                     {countPages > 1 &&
                         Array(countPages)
@@ -222,8 +241,8 @@ const Carousel = ({
                     onTouchEnd={() => handleTouchEnd()}
                 >
                     {newItemList.map((item, i) => (
-                        <Item key={i} gap={gap}>
-                            {item}
+                        <Item key={item.id} gap={gap} coverW={coverW}>
+                            {item.item}
                         </Item>
                     ))}
                 </div>

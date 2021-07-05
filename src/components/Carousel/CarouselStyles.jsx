@@ -15,7 +15,8 @@ export const Items = styled.article`
     position: relative;
 
     & .items-wrapper {
-        width: ${(props) => props.width};
+        width: 100%;
+        height: 100%;
         display: flex;
         justify-content: left;
         gap: 10px;
@@ -51,7 +52,9 @@ export const PaginationPages = styled.div`
 `;
 
 export const Item = styled.article`
-    width: 100%;
+    /* width: 100%; */
+    min-width: ${props => `${props.coverW}px`};
+    width: ${props => `${props.coverW}px`};
 `;
 
 export const Button = styled.button`
@@ -64,7 +67,6 @@ export const Button = styled.button`
     align-items: center;
     top: 0;
     border-radius: 5px;
-
     --width: 100px;
 
     height: 100%;
