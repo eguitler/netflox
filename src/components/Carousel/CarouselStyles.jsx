@@ -10,7 +10,6 @@ export const Items = styled.article`
     position: relative;
 
     & .items-wrapper {
-        width: 100%;
         height: 100%;
         display: flex;
         justify-content: left;
@@ -47,7 +46,6 @@ export const PaginationPages = styled.div`
 `;
 
 export const Item = styled.article`
-    /* width: 100%; */
     min-width: ${props => `${props.coverW}px`};
     width: ${props => `${props.coverW}px`};
 `;

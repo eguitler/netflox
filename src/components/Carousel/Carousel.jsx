@@ -11,7 +11,6 @@ const Carousel = ({
     items = [],
     gap = 10,
     infinite = true,
-    title = "",
     responsive = null,
 }) => {
     const getCurrentItemsCount = () => {
@@ -59,9 +58,10 @@ const Carousel = ({
     let copyList = items.map((item) => {
         return { id: `${item.props.id}-c`, item };
     });
-    let newItemList = infinite
-        ? [...originalList, ...copyList]
-        : [...originalList];
+    let newItemList =
+        window.innerWidth > 1024
+            ? [...originalList, ...copyList]
+            : [...originalList];
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
@@ -182,7 +182,20 @@ const Carousel = ({
     const handleTouch = (e) => {
         const moveX = e.touches[0].clientX;
         const distance = moveX - touchPosition;
-        if (originalOffset + distance <= 0) {
+        const movingForwards = distance < 0;
+
+        const lastItemBorder =
+            itemsRef.current.lastChild.getBoundingClientRect().right;
+        const containerW =
+            itemsRef.current.parentNode.getBoundingClientRect().right;
+        console.log(
+            lastItemBorder + " -- " + containerW + " -- " + originalOffset
+        );
+
+        if (
+            (movingForwards && lastItemBorder > containerW) ||
+            (!movingForwards && originalOffset + distance <= 0)
+        ) {
             itemsRef.current.style.marginLeft = `${
                 originalOffset + distance
             }px`;
@@ -193,7 +206,6 @@ const Carousel = ({
     const handleTouchEnd = () => {
         setOriginalOffset(originalOffset + touchDistance);
     };
-
 
     useEffect(() => {
         if (coverW === 0) {
