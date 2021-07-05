@@ -8,7 +8,7 @@ const Footer = () => {
                 <a
                     href="https://eguitler.ar"
                     target="_blank"
-                    rel="noreferrer nofollow"
+                    rel="noreferrer noopener"
                 >
                     Ezequiel Guitler
                 </a>
