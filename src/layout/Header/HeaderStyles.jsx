@@ -22,6 +22,7 @@ export const StyledHeader = styled.header`
         max-width: 1900px;
         display: flex;
         align-items: center;
+
     }
 
     & .mobile-search {
@@ -71,7 +72,6 @@ export const StyledHeader = styled.header`
 
 export const StyledLogo = styled.div`
     height: fit-content;
-    flex-grow: 1;
 
     & a {
         height: fit-content;
@@ -149,6 +149,8 @@ export const StyledUserActions = styled.div`
     display: flex;
     align-items: center;
     gap: 20px;
+    justify-content: flex-end;
+    flex-grow: 1;
 
     & .search-wrapper {
         & .search-form {
