@@ -188,10 +188,6 @@ const Carousel = ({
             itemsRef.current.lastChild.getBoundingClientRect().right;
         const containerW =
             itemsRef.current.parentNode.getBoundingClientRect().right;
-        console.log(
-            lastItemBorder + " -- " + containerW + " -- " + originalOffset
-        );
-
         if (
             (movingForwards && lastItemBorder > containerW) ||
             (!movingForwards && originalOffset + distance <= 0)
