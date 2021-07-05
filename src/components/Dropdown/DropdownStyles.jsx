@@ -53,7 +53,7 @@ export const StyledItem = styled.li`
         background-color: #444;
     }
 
-    & > a {
+    & > * {
         cursor: ${(props) => props.cursorType};
         display: block;
         padding: ${(props) => props.dropChild};

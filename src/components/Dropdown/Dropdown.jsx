@@ -158,7 +158,7 @@ const Dropdown = ({
                                 textWrap={textWrap}
                                 key={i}
                             >
-                                <a href={item.url}>{item.content}</a>
+                                {item.content}
                             </StyledItem>
                         );
                     })}

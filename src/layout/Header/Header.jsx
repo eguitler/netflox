@@ -30,7 +30,7 @@ const Header = () => {
     const myListsItems = [
         {
             url: "/#",
-            content: "here will be your lists!",
+            content: <a href="/">here will be your lists!</a>,
         },
         { class: "divider" },
         {
@@ -49,9 +49,9 @@ const Header = () => {
     ];
 
     const discoveryItems = [
-        { content: "Home" },
-        { content: "Movies" },
-        { content: "TV Shows" },
+        { content: <a href="/">Home</a> },
+        { content: <a href="/">Movies</a> },
+        { content: <a href="/">TV Shows</a> },
         {
             content: (
                 <Dropdown
@@ -63,7 +63,6 @@ const Header = () => {
                     addTriangle={true}
                     triangleRotation="-90"
                     nestedDropdown={true}
-                    // responsive={[{ 768: { position: { left: 0, top: 0 } } }]}
                 />
             ),
         },
@@ -105,8 +104,8 @@ const Header = () => {
 
     const closeSeachBox = () => {
         setSearchInput("");
-        if (activeSearch) setActiveSearch(false)
-        if (mobileSearch) setMobileSearch(false)
+        if (activeSearch) setActiveSearch(false);
+        if (mobileSearch) setMobileSearch(false);
     };
 
     useEffect(() => {
@@ -176,7 +175,7 @@ const Header = () => {
                                 type="text"
                                 placeholder="Search movies..."
                             />
-                            {(!showMobileMenu && searchInput) && (
+                            {!showMobileMenu && searchInput && (
                                 <img
                                     id="close"
                                     src="icons/close.svg"
@@ -216,37 +215,33 @@ const Header = () => {
                     />
                 </StyledUserActions>
             </div>
-            {showMobileMenu &&
-                <div className={`mobile-search ${mobileSearch ? 'active' : ''  }`}>
+            {showMobileMenu && (
+                <div
+                    className={`mobile-search ${mobileSearch ? "active" : ""}`}
+                >
                     <form
-                            className={`search-form ${
-                                activeSearch ? "active" : ""
-                            }  `}
-                            action=""
-                        >
-                            {/* <img
-                                id="zoomGlass"
-                                src="header/zoomGlass.svg"
+                        className={`search-form ${
+                            activeSearch ? "active" : ""
+                        }  `}
+                        action=""
+                    >
+                        <input
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            type="text"
+                            placeholder="Search movies..."
+                        />
+                        {searchInput && (
+                            <img
+                                id="close"
+                                src="icons/close.svg"
                                 alt=""
-                                onClick={() => handleSeachBox()}
-                            /> */}
-                            <input
-                                value={searchInput}
-                                onChange={(e) => setSearchInput(e.target.value)}
-                                type="text"
-                                placeholder="Search movies..."
+                                onClick={() => closeSeachBox()}
                             />
-                            {searchInput &&
-                                <img
-                                    id="close"
-                                    src="icons/close.svg"
-                                    alt=""
-                                    onClick={() => closeSeachBox()}
-                                />
-                            }
-                        </form>
+                        )}
+                    </form>
                 </div>
-            }
+            )}
         </StyledHeader>
     );
 };
