@@ -39,13 +39,13 @@ const Header = () => {
         },
     ];
 
-    const notificationItems = [{ content: "You have no notifications yet!" }];
+    const notificationItems = [{ content: <p>You have no notifications yet!</p> }];
 
     const profileItems = [
-        { content: "Profile" },
-        { content: "Settings" },
+        { content: <a href="/">Profile</a>},
+        { content: <a href="/">Settings</a>},
         { class: "divider" },
-        { content: "Log Out" },
+        { content: <a href="/">Log Out</a>},
     ];
 
     const discoveryItems = [
