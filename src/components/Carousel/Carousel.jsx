@@ -4,7 +4,6 @@ import {
     Items,
     Item,
     PaginationPages,
-    Title,
     Button,
 } from "components/Carousel/CarouselStyles";
 
@@ -215,9 +214,6 @@ const Carousel = ({
     }, []);
     return (
         <Container>
-            <Title>
-                <h3>{title}</h3>
-            </Title>
             <Items>
                 <PaginationPages>
                     {countPages > 1 &&

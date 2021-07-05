@@ -6,11 +6,6 @@ export const Container = styled.section`
     padding-top: 13px;
 `;
 
-export const Title = styled.div`
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-`;
-
 export const Items = styled.article`
     position: relative;
 
