@@ -1,63 +1,66 @@
 /* eslint-disable no-unused-vars */
 
 import React, { Fragment, useState } from "react";
-import Header from "layout/Header/Header";
-import Premiere from "layout/Premiere/Premiere";
-import MyLists from "layout/MyLists/MyLists";
 import Footer from "layout/Footer/Footer";
+import { connect } from "react-redux";
+import MoviesList from "components/MoviesList/MoviesList";
+import styled from "styled-components";
 
-const Home = () => {
-    const [premiereList, setPremiereList] = useState({
-        title: "New Uploads",
-        itemsPerPage: 6,
-        movies: [],
-        infinite: true,
-        baseURL: "https://yts.mx/api/v2/list_movies.json",
-        query: "limit=30",
-    });
+const Container = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: 80px;
+`
 
-    const [listsToShow, setListsToShow] = useState([
-        {
-            id: "01",
-            title: "Horror Movies",
-            itemsPerPage: 10,
-            movies: [],
-            infinite: true,
-            baseURL: "https://yts.mx/api/v2/list_movies.json",
-            query: "limit=30&genre=horror&sort_by=year",
+const Home = ({ premiereList, watchLaterList }) => {
+    const newUpdatesResponsive = {
+        desktop: {
+            breakpoint: { max: 4000, min: 1024 },
+            items: 5,
         },
-        {
-            id: "02",
-            title: "Fantasy Movies",
-            itemsPerPage: 10,
-            movies: [],
-            infinite: true,
-            baseURL: "https://yts.mx/api/v2/list_movies.json",
-            query: "limit=30&genre=fantasy&sort_by=year",
+        tablet: {
+            breakpoint: { max: 1024, min: 750 },
+            items: 4,
         },
-    ]);
+        bigMobile: {
+            breakpoint: { max: 750, min: 480 },
+            items: 3,
+        },
+        mobile: {
+            breakpoint: { max: 480, min: 0 },
+            items: 2,
+        },
+    };
 
     return (
         <>
-            <Header />
-            <div
-                style={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "50px",
-                    minHeight: "100vh",
-                    overflowX: "hidden",
-                    paddingBottom: "80px",
-                }}
-            >
-                <Premiere setPremiereList={setPremiereList} />
-                <MyLists setListsToShow={setListsToShow} />
-            </div>
+            <Container>
+                <MoviesList
+                    title={premiereList.title}
+                    movies={premiereList.movies}
+                    dataLoaded={premiereList.loaded}
+                    responsive={newUpdatesResponsive}
+                    />
+
+                <MoviesList
+                    title={watchLaterList.title}
+                    movies={watchLaterList.movies}
+                    dataLoaded={premiereList.loaded}
+                />
+            </Container>
             <Footer />
         </>
     );
 };
 
-export default Home;
+const mapStateToProps = (state) => ({
+    premiereList: state.movies.premiere,
+    watchLaterList: state.movies.watchLater,
+});
+
+export default connect(mapStateToProps)(Home);

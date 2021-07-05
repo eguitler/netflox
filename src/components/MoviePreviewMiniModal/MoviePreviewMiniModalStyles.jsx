@@ -22,11 +22,18 @@ export const StyledMiniModal = styled.div`
         display: grid;
         place-items: center;
         background-color: #111;
+        overflow: hidden;
 
         & iframe {
             height: 100%;
             width: 100%;
             border: none;
+        }
+
+        & img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
         }
     }
 
@@ -90,14 +97,41 @@ export const StyledMiniModal = styled.div`
             }
         }
 
-        & .button-wrapper {
-            display: grid;
-            place-items: center;
+        & .buttons-wrapper {
+            display: flex;
+            /* place-items: center; */
+            justify-content: space-between;
+            --invertColor: invert(37%) sepia(99%) saturate(548%)
+                hue-rotate(210deg) brightness(79%) contrast(96%);
+            --inverGreenColor:  invert(44%) sepia(63%) saturate(740%) hue-rotate(71deg) brightness(111%) contrast(87%);
+
+            & .icon {
+                height: 50px;
+                opacity: 1;
+                transition: all 0.3s;
+
+                &.add {
+                    filter: var(--invertColor);
+
+                    &:hover {
+                        filter: invert(62%) sepia(48%) saturate(586%)
+                            hue-rotate(204deg) brightness(103%) contrast(109%);
+                        opacity: 0.9;   
+                    }
+                }
+
+                &.tick {
+                    filter: var(--inverGreenColor);
+                    &:hover{
+                        filter: invert(79%) sepia(36%) saturate(3915%) hue-rotate(64deg) brightness(97%) contrast(73%);
+                    }
+                }
+            }
 
             & a {
                 border-radius: 5px;
                 border: 2px solid #6e63d3;
-                padding: 15px 30px;
+                padding: 10px 30px;
                 height: 100%;
 
                 display: flex;
