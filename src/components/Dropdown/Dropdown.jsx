@@ -36,15 +36,17 @@ const Dropdown = ({
         dropRef.current.style.visibility = "visible";
 
         setTimeout(function () {
-            dropRef.current.style.transition = `opacity ${transitionDuration}ms ${transitionDelay}ms`;
-            dropRef.current.style.opacity = "1";
-            if (
-                triangleRef.current ||
-                typeof triangleRef.current !== "undefined"
-            ) {
-                triangleRef.current.style.transition = `transform ${transitionDuration}ms ${transitionDelay}ms`;
-                triangleRef.current.style.transform = `rotate(${triangleRotation}deg)`;
-                setOpened(true);
+            if (dropRef?.current) {
+                dropRef.current.style.transition = `opacity ${transitionDuration}ms ${transitionDelay}ms`;
+                dropRef.current.style.opacity = "1";
+                if (
+                    triangleRef.current ||
+                    typeof triangleRef.current !== "undefined"
+                ) {
+                    triangleRef.current.style.transition = `transform ${transitionDuration}ms ${transitionDelay}ms`;
+                    triangleRef.current.style.transform = `rotate(${triangleRotation}deg)`;
+                    setOpened(true);
+                }
             }
         }, 20);
     };

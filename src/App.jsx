@@ -1,33 +1,28 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from "react-router-dom";
 
 import GlobalStyles from "styles/global";
 
 import Home from "pages/Home";
 import Login from "pages/Login/Login";
+import Register from "pages/Register/Register";
+import RecoverPassword from "pages/RecoverPassword/RecoverPassword";
+import Header from "layout/Header/Header";
 import Search from "pages/Search/Search";
 import ProtectedRoute from "components/ProtectedRoute/ProtectedRoute";
-import Header from "layout/Header/Header";
 
-import { Provider, useDispatch } from "react-redux";
-import store from "./store";
-import { useEffect } from "react";
-import { initMovies } from "store";
 import { getNewUploads } from "services/movies";
+import { connect, useDispatch } from "react-redux";
+import { initMovies } from "store";
 
-const AppWrapper = () => {
-    return (
-        <Provider store={store}>
-            <App />
-        </Provider>
-    );
-};
-
-const App = () => {
-    const [user, setUser] = useState(true);
-    const dispatch = useDispatch();
-
+export const App = ({ user, userLogged }) => {
     // replace this by custom hook
+    const dispatch = useDispatch();
     useEffect(() => {
         getNewUploads().then((movies) => {
             dispatch(initMovies(movies));
@@ -36,20 +31,35 @@ const App = () => {
     return (
         <Router>
             <GlobalStyles />
-            {user ? <Header /> : null}
+            {userLogged ? <Header /> : null}
             <Switch>
                 <ProtectedRoute
                     path="/search"
                     component={Search}
-                    authorized={user}
+                    authorized={userLogged}
                 />
                 <Route exact path="/login">
-                    {user ? <Redirect to="/" /> : Login()}
+                    {userLogged ? <Redirect to="/" /> : <Login />}
                 </Route>
-                <ProtectedRoute path="/" component={Home} authorized={user} />
+                <Route exact path="/register">
+                    {userLogged ? <Redirect to="/" /> : <Register />}
+                </Route>
+                <Route exact path="/recover">
+                    {userLogged ? <Redirect to="/" /> : <RecoverPassword />}
+                </Route>
+                <ProtectedRoute
+                    path="/"
+                    component={Home}
+                    authorized={userLogged}
+                />
             </Switch>
         </Router>
     );
 };
 
-export default AppWrapper;
+const mapStateToProps = (state) => ({
+    user: state.user.user,
+    userLogged: state.user.userLogged,
+});
+
+export default connect(mapStateToProps, {})(App);

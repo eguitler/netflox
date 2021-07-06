@@ -7,15 +7,18 @@ import {
     StyledLogo,
     StyledUserActions,
 } from "./HeaderStyles";
-
+import firebase from "firebase";
 import Dropdown from "components/Dropdown/Dropdown";
+import { connect } from "react-redux";
+import { USER_LOGOUT } from "store";
+import { useHistory } from "react-router-dom";
 
 const BG_COLOR = {
     transparent: "transparent",
     dark: "#050505",
 };
 
-const Header = () => {
+const Header = ({ logout }) => {
     const dropNavRef = useRef();
 
     const [showDiscoveryMenu, setShowDiscoveryMenu] = useState(
@@ -39,13 +42,34 @@ const Header = () => {
         },
     ];
 
-    const notificationItems = [{ content: <p>You have no notifications yet!</p> }];
+    const notificationItems = [
+        { content: <p>You have no notifications yet!</p> },
+    ];
+
+    const historical = useHistory();
+    const handleLogOut = (e) => {
+        e.preventDefault();
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                logout();
+                historical.push("/login");
+            })
+            .catch((err) => console.log(`ERROR: ${err}: ${err.message}`));
+    };
 
     const profileItems = [
-        { content: <a href="/">Profile</a>},
-        { content: <a href="/">Settings</a>},
+        { content: <a href="/">Profile</a> },
+        { content: <a href="/">Settings</a> },
         { class: "divider" },
-        { content: <a href="/">Log Out</a>},
+        {
+            content: (
+                <a onClick={(e) => handleLogOut(e)} href="/">
+                    Log Out
+                </a>
+            ),
+        },
     ];
 
     const discoveryItems = [
@@ -246,4 +270,15 @@ const Header = () => {
     );
 };
 
-export default Header;
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => {
+            dispatch({
+                type: USER_LOGOUT,
+            });
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

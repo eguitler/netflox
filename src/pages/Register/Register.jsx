@@ -1,26 +1,24 @@
 import React, { useState } from "react";
-import { Container, StyledForm } from "./LoginStyles";
+import { Container, StyledForm } from "./RegisterStyles";
 import firebase from "firebase";
 import { useHistory, Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { USER_LOGIN } from "store";
 
-const Login = ({ login }) => {
+const Register = () => {
+    const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     const historical = useHistory();
 
-    const handleAuth = (e) => {
-        // const provider = new firebase.auth.EmailAuthProvider();
+    const handleRegister = (e) => {
         e.preventDefault();
         firebase
             .auth()
-            .signInWithEmailAndPassword(email, password)
+            .createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 setEmail("");
                 setPassword("");
-                login(userCredential.user);
-                historical.push("/");
+                historical.push("/login");
             })
             .catch((error) => console.log(`Error: ${error}: ${error.message}`));
     };
@@ -34,6 +32,15 @@ const Login = ({ login }) => {
                 </div>
                 <div className="input-wrapper usr-wrapper">
                     <img className="icon user" src="icons/user.png" alt="" />
+                    <input
+                        type="text"
+                        placeholder="Full Name"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                    />
+                </div>
+                <div className="input-wrapper email-wrapper">
+                    <img className="icon email" src="icons/email.png" alt="" />
                     <input
                         type="text"
                         placeholder="Email"
@@ -51,33 +58,19 @@ const Login = ({ login }) => {
                     />
                 </div>
                 <button
-                    onClick={(e) => handleAuth(e)}
-                    className="login-btn btn"
-                    type="submit"
+                    onClick={(e) => handleRegister(e)}
+                    className="register-btn btn"
+                    href="/register"
                 >
-                    LOG IN
+                    CREATE ACCOUNT
                 </button>
-                <div className="recover-wrapper">
-                    <Link to="/recover">Forgot password?</Link>
-                </div>
                 <div className="divider" />
-                <Link className="register-btn btn" to="/register">
-                    CREATE NEW ACCOUNT
-                </Link>
+                <div className="recover-wrapper">
+                    <Link to="/login">I already have an account.</Link>
+                </div>
             </StyledForm>
         </Container>
     );
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        login: (user) => {
-            dispatch({
-                type: USER_LOGIN,
-                payload: user,
-            });
-        },
-    };
-};
-
-export default connect(() => ({}), mapDispatchToProps)(Login);
+export default Register;
