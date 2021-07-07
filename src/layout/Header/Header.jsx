@@ -11,14 +11,15 @@ import firebase from "firebase";
 import Dropdown from "components/Dropdown/Dropdown";
 import { connect } from "react-redux";
 import { USER_LOGOUT } from "store";
-import { useHistory } from "react-router-dom";
+
+import Cookies from "universal-cookie";
 
 const BG_COLOR = {
     transparent: "transparent",
     dark: "#050505",
 };
 
-const Header = ({ logout }) => {
+const Header = ({ removeUser }) => {
     const dropNavRef = useRef();
 
     const [showDiscoveryMenu, setShowDiscoveryMenu] = useState(
@@ -46,15 +47,16 @@ const Header = ({ logout }) => {
         { content: <p>You have no notifications yet!</p> },
     ];
 
-    const historical = useHistory();
     const handleLogOut = (e) => {
+        const cookie = new Cookies()
         e.preventDefault();
         firebase
             .auth()
             .signOut()
             .then(() => {
-                logout();
-                historical.push("/login");
+                cookie.remove("user")
+                removeUser()
+                window.location.href ='/login'
             })
             .catch((err) => console.log(`ERROR: ${err}: ${err.message}`));
     };
@@ -273,7 +275,7 @@ const Header = ({ logout }) => {
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => {
     return {
-        logout: () => {
+        removeUser: () => {
             dispatch({
                 type: USER_LOGOUT,
             });

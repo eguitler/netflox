@@ -1,4 +1,7 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import storage from 'redux-persist/lib/storage'
+import { persistStore, persistReducer } from 'redux-persist'
+
 
 const initialState = {
     all: [],
@@ -67,7 +70,6 @@ export const removeFromWatchLater = (id) => {
 
 const userInitialState = {
     user: null,
-    userLogged: false
 }
 
 export const USER_LOGIN = "user@login"
@@ -76,16 +78,12 @@ export const USER_LOGOUT = "user@logout"
 const userReducer = (state = userInitialState, action) => {
     if (action.type === USER_LOGIN) {
         return {
-            ...state,
             user: action.payload,
-            userLogged: true,
         };
     }
     if (action.type === USER_LOGOUT) {
         return {
-            ...state,
             user: null,
-            userLogged: false,
         };
     }
     return state;
@@ -106,9 +104,24 @@ export const userLogout = () => {
 
 /* COMBINATION */
 
-const reducer = combineReducers({
+const reducers = combineReducers({
     movies: moviesReducer,
     user: userReducer,
 });
 
-export default createStore(reducer);
+const persistConfig = {
+    key: 'root',
+    storage,
+    blacklist: ['user']
+    //whitelist: ['something']
+}
+
+const persistedReducer = persistReducer(persistConfig, reducers)
+
+const store = createStore(
+    persistedReducer,
+    applyMiddleware()
+)
+
+const persistor = persistStore(store)
+export {store, persistor}

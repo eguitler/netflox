@@ -1,30 +1,44 @@
 import React, { useState } from "react";
-import { Container, StyledForm } from "./LoginStyles";
-import firebase from "firebase";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+
+import { Container, StyledForm } from "./LoginStyles";
 import { USER_LOGIN } from "store";
 
-const Login = ({ login }) => {
+import firebase from "firebase";
+import Cookies from "universal-cookie";
+import { useEffect } from "react";
+
+const Login = ({ user, addUser }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const historical = useHistory();
+
+    const [tryToLogIn, setTryToLogIn] = useState(false)
 
     const handleAuth = (e) => {
-        // const provider = new firebase.auth.EmailAuthProvider();
         e.preventDefault();
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                setEmail("");
-                setPassword("");
-                login(userCredential.user);
-                historical.push("/");
-            })
-            .catch((error) => console.log(`Error: ${error}: ${error.message}`));
+        setTryToLogIn(true)
     };
 
+    useEffect(() => {
+        const cookie = new Cookies();
+        if (tryToLogIn) {
+            firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(async (userCredential) => {
+                // set expiration
+                const date = new Date(Date.now())
+                date.setDate(date.getDate() + 10)
+                // create the cookie
+                // userCredential.user.updateProfile({displayName: "Ezequiel Guitler", pedo: "sasdfsd"})
+                cookie.set("user", userCredential.user.toJSON(), { path: "/", expires: date});
+                setTryToLogIn(false)
+                addUser(userCredential.user.toJSON());
+            })
+            .catch((error) => console.log(`Error: ${error}: ${error.message}`));
+        }
+    },[tryToLogIn])
     return (
         <Container>
             <div className="bg-overlay" />
@@ -69,9 +83,15 @@ const Login = ({ login }) => {
     );
 };
 
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        login: (user) => {
+        addUser: (user) => {
             dispatch({
                 type: USER_LOGIN,
                 payload: user,
@@ -80,4 +100,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(() => ({}), mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

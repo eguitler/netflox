@@ -1,10 +1,14 @@
 /* eslint-disable no-unused-vars */
 
-import React, { Fragment, useState } from "react";
+import React, { useEffect } from "react";
 import Footer from "layout/Footer/Footer";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import MoviesList from "components/MoviesList/MoviesList";
 import styled from "styled-components";
+
+import { getNewUploads } from "services/movies";
+import { initMovies } from "store";
+
 
 const Container = styled.div`
     width: 100%;
@@ -17,7 +21,7 @@ const Container = styled.div`
     padding-bottom: 80px;
 `
 
-const Home = ({ premiereList, watchLaterList }) => {
+const Home = ({ user, premiereList, watchLaterList }) => {
     const newUpdatesResponsive = {
         desktop: {
             breakpoint: { max: 4000, min: 1024 },
@@ -37,9 +41,17 @@ const Home = ({ premiereList, watchLaterList }) => {
         },
     };
 
+    // replace this by custom hook
+    const dispatch = useDispatch();
+    useEffect(() => {
+        getNewUploads().then((movies) => {
+            dispatch(initMovies(movies));
+        });
+    }, [dispatch]);
     return (
         <>
             <Container>
+                <p>HOLA {user.displayName}</p>
                 <MoviesList
                     title={premiereList.title}
                     movies={premiereList.movies}
@@ -61,6 +73,7 @@ const Home = ({ premiereList, watchLaterList }) => {
 const mapStateToProps = (state) => ({
     premiereList: state.movies.premiere,
     watchLaterList: state.movies.watchLater,
+    user: state.user.user
 });
 
 export default connect(mapStateToProps)(Home);

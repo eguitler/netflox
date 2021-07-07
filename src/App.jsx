@@ -16,18 +16,20 @@ import Header from "layout/Header/Header";
 import Search from "pages/Search/Search";
 import ProtectedRoute from "components/ProtectedRoute/ProtectedRoute";
 
-import { getNewUploads } from "services/movies";
-import { connect, useDispatch } from "react-redux";
-import { initMovies } from "store";
+import { connect } from "react-redux";
 
-export const App = ({ user, userLogged }) => {
-    // replace this by custom hook
-    const dispatch = useDispatch();
-    useEffect(() => {
-        getNewUploads().then((movies) => {
-            dispatch(initMovies(movies));
-        });
-    }, [dispatch]);
+import { USER_LOGIN } from "store";
+import Cookies from "universal-cookie";
+
+export const App = ({ addUser,  user }) => {
+
+    const userLogged = (user && user !== undefined)
+    
+    const cookie = new Cookies()
+    if (!user && cookie.get("user")) {
+        addUser(cookie.get("user"))
+    }
+
     return (
         <Router>
             <GlobalStyles />
@@ -59,7 +61,17 @@ export const App = ({ user, userLogged }) => {
 
 const mapStateToProps = (state) => ({
     user: state.user.user,
-    userLogged: state.user.userLogged,
 });
 
-export default connect(mapStateToProps, {})(App);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addUser: (user) => {
+            dispatch({
+                type: USER_LOGIN,
+                payload: user,
+            });
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

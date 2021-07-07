@@ -1,15 +1,17 @@
 import React from "react";
 import { Provider } from "react-redux";
-
-import store from "./store";
 import App from "App";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store";
 
 const AppWrapper = () => {
     return (
         <Provider store={store}>
-            <App />
+            <PersistGate loading={<p>LOADING.....</p>} persistor={persistor}>
+                <App />
+            </PersistGate>
         </Provider>
     );
 };
 
-export default AppWrapper
+export default AppWrapper;
