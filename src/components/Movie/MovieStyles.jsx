@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const StyledMovie = styled.div`
     position: relative;
     cursor: pointer;
-
+    margin-right: 5px;
     & .movie-cover {
         width: 100%;
         object-fit: cover;
