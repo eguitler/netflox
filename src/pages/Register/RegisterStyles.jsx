@@ -20,6 +20,21 @@ export const Container = styled.div`
     }
 `;
 
+export const StyledSuccessMsg = styled.div`
+    width: 100%;
+    border-radius: 5px;
+    background-color: #318f45;
+    padding: 10px;
+    text-align: center;
+`
+
+export const StyledErrorMsg = styled.div`
+    width: 100%;
+    border-radius: 5px;
+    background-color: #b92020;
+    padding: 10px;
+`
+
 export const StyledForm = styled.form`
     z-index: 2;
     display: flex;

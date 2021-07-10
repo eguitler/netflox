@@ -89,6 +89,12 @@ export const StyledForm = styled.form`
         color: #f0f0f0;
         font-weight: bold;
 
+        &.disabled {
+            background-color: #666;
+            color: #cfcfcf;
+            cursor: not-allowed;
+        }
+
         &.login-btn {
             background-color: #666fc2;
             letter-spacing: 0.5px;
