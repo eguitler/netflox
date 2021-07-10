@@ -1,50 +1,80 @@
-import React, { useEffect, useRef, useState } from "react";
-import { StyledMovie } from "./MovieStyles";
-import MoviePreviewMiniModal from "components/MoviePreviewMiniModal/MoviePreviewMiniModal";
-import { getMovieDetails } from "services/movies";
+import React, { useRef } from "react";
+import { connect } from "react-redux";
+import { isMobile } from "react-device-detect";
 
-const Movie = ({ id, src, srcset }) => {
-    const [movieData, setMovieData] = useState(null);
-    const [hover, setHover] = useState(false);
+import { MODAL_OPEN, MODAL_CLOSE } from "store";
+import { StyledMovie } from "./MovieStyles";
+
+const Movie = ({
+    id,
+    src,
+    srcSet,
+    openModal,
+    closeModal,
+    modalOpened,
+    modalMovieId,
+}) => {
     const movieRef = useRef();
 
-    const getHeight = () => {
-        if (movieRef.current)
-            return movieRef.current.getBoundingClientRect().height;
-    };
-    const getWidth = () => {
-        if (movieRef.current)
-            return movieRef.current.getBoundingClientRect().width;
-    };
+    function handleHover() {
+        openModal({
+            id,
+            info: movieRef.current.getBoundingClientRect(),
+            ref: movieRef.current,
+        });
+    }
 
-    useEffect(() => {
-        if (hover && !movieData) {
-            getMovieDetails(id).then((data) => setMovieData(data));
+    function handleClick() {
+        if (modalOpened && modalMovieId === id) {
+            closeModal();
+        } else {
+            closeModal();
+            setTimeout(() => {
+                openModal({
+                    id,
+                    info: movieRef.current.getBoundingClientRect(),
+                    ref: movieRef.current,
+                });
+            }, 100);
         }
-    }, [hover, id, movieData]);
+    }
+
     return (
         <StyledMovie
-            onMouseOver={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
+            onMouseOver={isMobile ? undefined : () => handleHover()}
+            onClick={isMobile ? () => handleClick() : undefined}
             ref={movieRef}
         >
             <img
                 className="movie-cover"
                 src={src}
-                srcSet={srcset}
+                srcSet={srcSet}
                 alt=""
                 loading="lazy"
             />
-            {hover && (
-                <MoviePreviewMiniModal
-                    active={hover}
-                    itemH={getHeight()}
-                    itemW={getWidth()}
-                    movieData={movieData}
-                />
-            )}
         </StyledMovie>
     );
 };
 
-export default Movie;
+const mapStateToProps = (state) => ({
+    modalOpened: state.modal.active,
+    modalMovieId: state.modal.id,
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        openModal: ({ id, info, ref }) => {
+            dispatch({
+                type: MODAL_OPEN,
+                payload: { info, id, ref },
+            });
+        },
+        closeModal: () => {
+            dispatch({
+                type: MODAL_CLOSE,
+            });
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Movie);

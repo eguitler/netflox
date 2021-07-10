@@ -1,20 +1,35 @@
 import styled from "styled-components";
 
 export const StyledMiniModal = styled.div`
-    position: absolute;
-    width: 300px;
-    height: 400px;
-    top: 0;
-    left: 0;
+    position: fixed;
+    width: ${(props) => `${props.width}px`};
+    height: ${(props) => `${props.height}px`};
+    top: ${(props) => `${props.posTop}px`};
+    left: ${(props) => `${props.posLeft}px`};
+
     background-color: transparent;
-    z-index: 10;
+    z-index: 100;
     border-radius: 5px;
     box-shadow: 0 3px 10px black;
-
+    background-color: #1a1a1a;
     opacity: 0;
-    display: none;
-    visibility: hidden;
+    animation: appear 0.2s 0.5s forwards;
     user-select: none;
+    cursor: pointer;
+
+    
+    @keyframes appear {
+        0% {
+            font-size: 3px;
+            transform: scale(1);
+            opacity: 0.2;
+        }
+        100% {
+            font-size: 16px;
+            transform: scale(1.1);
+            opacity: 1;
+        }
+    }
 
     & .trailer-wrapper {
         width: 100%;
@@ -30,24 +45,25 @@ export const StyledMiniModal = styled.div`
             border: none;
         }
 
-        & img {
+        & .img-bg {
             height: 100%;
             width: 100%;
             object-fit: cover;
         }
-    }
+        
+        & .loading-spinner {
+            height: 100%;
+            width: 100%;
+            display: grid;
+            place-items: center;
 
-    &.active {
-        display: flex;
-        flex-direction: column;
-        visibility: visible;
-        left: ${(props) => `${props.posX}px`};
-        top: ${(props) => `${props.posY}px`};
-        height: 400px;
-        width: 350px;
-        background-color: #2a2a2a;
-
-        animation: appear 0.2s 0.5s forwards;
+            & img {
+                width: 50px;
+                mix-blend-mode: screen;
+                filter: invert(1);
+                
+            }
+        }
     }
 
     & .info-description {
@@ -174,50 +190,37 @@ export const StyledMiniModal = styled.div`
         }
     }
 
-    @keyframes appear {
-        0% {
-            font-size: 3px;
-            transform: scale(0.5);
-        }
-        10% {
-            opacity: 0.5;
-        }
-        100% {
-            font-size: 16px;
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-
     @media screen and (max-width: 1024px) {
         border-top: 2px solid #666;
         border-radius: 0;
         box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.6);
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100%;
 
-        &.active {
-            position: fixed;
-            flex-direction: row;
-            top: auto;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            height: 300px;
-            width: 100%;
-            background-color: #2a2a2a;
+        position: fixed;
+        display: flex;
+        flex-direction: row;
+        top: auto;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        height: 300px;
+        width: 100%;
 
-            animation: appearFromBottom 0.2s 0.5s forwards;
+        animation: appearFromBottom 0.2s 0.5s forwards;
 
-            @keyframes appearFromBottom {
-                0% {
-                    transform: translateY(100%);
-                }
-                10% {
-                    opacity: 0.5;
-                }
-                100% {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
+        @keyframes appearFromBottom {
+            0% {
+                transform: translateY(100%);
+            }
+            10% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
 
@@ -253,23 +256,20 @@ export const StyledMiniModal = styled.div`
                 display: flex;
                 justify-content: start;
                 gap: 15px;
+                
+                a {
+                    align-items: center;
+                }
             }
         }
     }
 
     @media screen and (max-width: 768px) {
-        &.active {
-            height: 250px;
-        }
+        height: 250px;
 
         & .trailer-wrapper {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            height: auto;
-            background-color: #2a2a2a;
-            margin: auto;
-            border-radius: 3px;
+            display: none;
+            visibility: hidden;
         }
 
         & .info-description {
@@ -283,12 +283,6 @@ export const StyledMiniModal = styled.div`
                     font-size: 1.1rem;
                 }
             }
-        }
-    }
-
-    @media screen and (max-width: 480px) {
-        & .trailer-wrapper {
-            display: none;
         }
     }
 `;

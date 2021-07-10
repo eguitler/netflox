@@ -86,8 +86,7 @@ export const PaginationPages = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 7px;
-    border: 5 pc solid;
-    z-index: 100;
+
     & .page {
         background-color: rgba(255, 255, 255, 0.4);
         height: 80%;

@@ -2,12 +2,19 @@ import React from "react";
 import { StyledMiniModal } from "./MoviePreviewMiniModalStyles";
 import { connect } from "react-redux";
 import { ADD_TO_WATCH_LATER, REMOVE_FROM_WATCH_LATER } from "store";
+import { MODAL_CLOSE } from "store";
+import { useEffect } from "react";
+import { getMovieDetails } from "services/movies";
+import { useState } from "react";
+import { useRef } from "react";
+import { isMobile } from "react-device-detect";
 
 const MoviePreviewMiniModal = ({
-    active,
-    itemW,
-    itemH,
-    movieData,
+    id,
+    itemRef,
+    info,
+    isOpened,
+    closeModal,
     watchLater,
     addToWatchLater,
     removeFromWatchLater,
@@ -22,47 +29,93 @@ const MoviePreviewMiniModal = ({
         description_intro: "",
     };
 
-    if (!movieData) movieData = emptyData;
+    const [movieData, setMovieData] = useState(emptyData);
+    const [dataLoaded, setDataLoaded] = useState(false);
 
-    movieData.yt_trailer_code =
-        movieData.yt_trailer_code ?? emptyData.yt_trailer_code;
-    movieData.torrent =
-        movieData.torrents.length > 0
-            ? movieData.torrents[0]
-            : emptyData.torrent;
+    const width = 350;
+    const height =
+        itemRef.getBoundingClientRect().height > 400
+            ? itemRef.getBoundingClientRect().height
+            : 400;
 
-    // change implementation of Movie in order to check IDs
-    movieData.watchLater = Boolean(
-        watchLater.find((movie) => movie.id === movieData.id)
-    );
+    const diffV = (height - info.height) / 2;
+    const [posTop, setPosTop] = useState(info.top - diffV);
 
-    const getPosY = () => {
-        const difference = Math.abs(400 - itemH) / 2;
-        const value = 400 > itemH ? -difference : difference;
+    const diffH = (width - info.width) / 2;
+    let posLeft = info.left - diffH;
 
-        return value;
+    if (posLeft < 100) {
+        posLeft = info.left;
+    } else if (posLeft + width > window.innerWidth - 100) {
+        posLeft = posLeft - diffH;
+    }
+
+    const modalRef = useRef();
+
+    const handleAddToWatchLater = () => {
+        addToWatchLater(movieData);
+        setMovieData({ ...movieData, watchLater: true });
     };
-    const getPosX = () => {
-        const value = Math.abs(350 - itemW) / -2;
-        return value;
+
+    const handleRemoveFromWatchLater = () => {
+        removeFromWatchLater(movieData.id);
+        setMovieData({ ...movieData, watchLater: false });
+        closeModal();
     };
 
+    useEffect(() => {
+        if (!isMobile) {
+            window.addEventListener(
+                "scroll",
+                () => {
+                    setPosTop(itemRef.getBoundingClientRect().top - diffV);
+                },
+                { capture: true }
+            );
+        }
+    }, [diffV, itemRef, isOpened]);
+
+    useEffect(() => {
+        getMovieDetails(id).then((data) => {
+            setMovieData({
+                ...data,
+                torrent: data.torrents[0],
+                watchLater: Boolean(
+                    watchLater.find((movie) => movie.id === data.id)
+                ),
+            });
+            setDataLoaded(true);
+        });
+    }, []);
     return (
         <StyledMiniModal
-            className={active ? "active" : ""}
-            posX={getPosX()}
-            posY={getPosY()}
+            width={width}
+            height={height}
+            posLeft={posLeft}
+            posTop={posTop}
+            onMouseLeave={() => closeModal()}
+            ref={modalRef}
         >
             <div className="trailer-wrapper">
-                {movieData.yt_trailer_code ? (
-                    <iframe
-                        title="Trailer"
-                        src={`https://www.youtube.com/embed/${movieData.yt_trailer_code}`}
-                    ></iframe>
-                ) : movieData.background_image ? (
-                    <img src={movieData.background_image} alt="" />
+                {dataLoaded ? (
+                    movieData.yt_trailer_code ? (
+                        <iframe
+                            title="Trailer"
+                            src={`https://www.youtube.com/embed/${movieData.yt_trailer_code}`}
+                        ></iframe>
+                    ) : movieData.background_image ? (
+                        <img
+                            className="img-bg"
+                            src={movieData.background_image}
+                            alt=""
+                        />
+                    ) : (
+                        <p>TRAILER NOT AVAILABLE</p>
+                    )
                 ) : (
-                    <p>TRAILER NOT AVAILABLE</p>
+                    <div className="loading-spinner">
+                        <img src="loading-spinner.gif" alt="" />
+                    </div>
                 )}
             </div>
             <div className="info-description">
@@ -95,14 +148,14 @@ const MoviePreviewMiniModal = ({
                         <img
                             className="icon tick"
                             src="icons/tick.svg"
-                            onClick={() => removeFromWatchLater(movieData.id)}
+                            onClick={() => handleRemoveFromWatchLater()}
                             alt=""
                         />
                     ) : (
                         <img
                             className="icon add"
                             src="icons/add.svg"
-                            onClick={() => addToWatchLater(movieData)}
+                            onClick={() => handleAddToWatchLater()}
                             alt=""
                         />
                     )}
@@ -114,6 +167,7 @@ const MoviePreviewMiniModal = ({
 
 const mapStateToProps = (state) => ({
     watchLater: state.movies.watchLater.movies,
+    isOpened: state.modal.active,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -128,6 +182,11 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({
                 type: REMOVE_FROM_WATCH_LATER,
                 payload: id,
+            });
+        },
+        closeModal: () => {
+            dispatch({
+                type: MODAL_CLOSE,
             });
         },
     };

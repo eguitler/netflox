@@ -102,17 +102,52 @@ export const userLogout = () => {
 };
 
 
+
+/*  MODAL REDUCER  */
+
+const modalInitialState = {
+    active: false,
+    id: null,
+    info: null,
+    ref: null
+}
+
+export const MODAL_OPEN = "@modal/open"
+export const MODAL_CLOSE = "@modal/close"
+
+const modalReducer = (state = modalInitialState, action) => {
+    if (action.type === MODAL_OPEN) {
+        return {
+            active: true,
+            id: action.payload.id,
+            info: action.payload.info,
+            ref: action.payload.ref
+        };
+    }
+    if (action.type === MODAL_CLOSE) {
+        return {
+            active: false,
+            id: null,
+            info: null,
+            ref: null,
+        };
+    }
+    return state
+}
+
+
 /* COMBINATION */
 
 const reducers = combineReducers({
     movies: moviesReducer,
     user: userReducer,
+    modal: modalReducer,
 });
 
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['user']
+    blacklist: ['modal']
     //whitelist: ['something']
 }
 
