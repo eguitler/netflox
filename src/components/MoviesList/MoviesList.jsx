@@ -28,7 +28,7 @@ const LoadingItem = styled.div`
     }
 `;
 
-const MoviesList = ({ title, movies, dataLoaded, responsive = null }) => {
+const MoviesList = ({ title, movies, dataLoaded, infinite=false, responsive = null }) => {
     const loadingItems = [
         <LoadingItem id={Math.random()} />,
         <LoadingItem id={Math.random()} />,
@@ -99,7 +99,7 @@ const MoviesList = ({ title, movies, dataLoaded, responsive = null }) => {
         return itemsPerPageTmp;
     };
 
-    const infinite = movies.length > getCurrentItemsCount();
+    infinite = infinite && movies.length > getCurrentItemsCount();
     const touchSupport = window.innerWidth <= 1024;
     const carouselRef = useRef();
     return (
@@ -117,12 +117,13 @@ const MoviesList = ({ title, movies, dataLoaded, responsive = null }) => {
                         arrows={false}
                         removeArrowOnDeviceType={["tablet", "mobile"]}
                         customButtonGroup={
-                            infinite && (
+                            // infinite && (
                                 <ButtonGroup
                                     totalItems={movies.length}
                                     carouselRef={carouselRef}
+                                    infinite={infinite}
                                 />
-                            )
+                            // )
                         }
                         additionalTransfrom={0}
                         showDots={false}

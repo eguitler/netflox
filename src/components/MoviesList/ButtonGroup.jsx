@@ -2,7 +2,13 @@ import React, { useRef } from "react";
 import { useState } from "react";
 import { Button, PaginationPages } from "./MoviesListStyles";
 
-const ButtonGroup = ({ goToSlide, carouselState, totalItems, carouselRef }) => {
+const ButtonGroup = ({
+    goToSlide,
+    carouselState,
+    totalItems,
+    carouselRef,
+    infinite,
+}) => {
     const { currentSlide, slidesToShow } = carouselState;
 
     const [firstNextDone, setFirstNextDone] = useState(false);
@@ -21,11 +27,10 @@ const ButtonGroup = ({ goToSlide, carouselState, totalItems, carouselRef }) => {
         if (!firstNextDone) setFirstNextDone(true);
         nextButtonRef.current.setAttribute("disabled", true);
 
-        const newPage = currentPage + 1 > countPages - 1 ? 0 : currentPage + 1;
-        setCurrentPage(newPage);
-
         const activeItems = currentIndex + slidesToShow;
         const restingItems = totalItems - activeItems;
+        if (!infinite && restingItems === 0) return;
+
         const unitsForwards =
             restingItems >= slidesToShow || restingItems === 0
                 ? slidesToShow
@@ -34,6 +39,9 @@ const ButtonGroup = ({ goToSlide, carouselState, totalItems, carouselRef }) => {
             currentIndex + unitsForwards < totalItems
                 ? currentIndex + unitsForwards
                 : 0;
+
+        const newPage = currentPage + 1 > countPages - 1 ? 0 : currentPage + 1;
+        setCurrentPage(newPage);
 
         carouselRef.current.listRef.current.addEventListener(
             "transitionend",
@@ -52,10 +60,9 @@ const ButtonGroup = ({ goToSlide, carouselState, totalItems, carouselRef }) => {
     const handlePrev = () => {
         prevButtonRef.current.setAttribute("disabled", true);
 
-        const newPage = currentPage - 1 < 0 ? countPages - 1 : currentPage - 1;
-        setCurrentPage(newPage);
-
         const restingItems = currentIndex;
+        if (!infinite && restingItems === 0) return;
+
         const unitsBackwards =
             restingItems >= slidesToShow || restingItems === 0
                 ? slidesToShow
@@ -64,6 +71,9 @@ const ButtonGroup = ({ goToSlide, carouselState, totalItems, carouselRef }) => {
             currentIndex - unitsBackwards >= 0
                 ? currentIndex - unitsBackwards
                 : totalItems - unitsBackwards;
+
+        const newPage = currentPage - 1 < 0 ? countPages - 1 : currentPage - 1;
+        setCurrentPage(newPage);
 
         carouselRef.current.listRef.current.addEventListener(
             "transitionend",

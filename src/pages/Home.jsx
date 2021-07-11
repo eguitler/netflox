@@ -59,7 +59,7 @@ const Home = ({ user, premiereList, watchLaterList, modal }) => {
         getNewUploads().then((movies) => {
             dispatch(initMovies(movies));
         });
-    }, [dispatch]);
+    }, [dispatch, watchLaterList]);
     return (
         <>
             <Container>
@@ -71,11 +71,13 @@ const Home = ({ user, premiereList, watchLaterList, modal }) => {
                     movies={premiereList.movies}
                     dataLoaded={premiereList.loaded}
                     responsive={newUpdatesResponsive}
+                    infinite={true}
                 />
                 <MoviesList
                     title={watchLaterList.title}
                     movies={watchLaterList.movies}
                     dataLoaded={premiereList.loaded}
+                    infinite={false}
                 />
             </Container>
             {modal.active && (
