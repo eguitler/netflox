@@ -86,7 +86,7 @@ const MoviePreviewMiniModal = ({
             });
             setDataLoaded(true);
         });
-    }, []);
+    }, [id, watchLater]);
     return (
         <StyledMiniModal
             width={width}

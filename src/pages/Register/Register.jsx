@@ -5,7 +5,8 @@ import {
     StyledErrorMsg,
     StyledSuccessMsg,
 } from "./RegisterStyles";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth"
 import { useHistory, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -85,6 +86,7 @@ const Register = () => {
                 historical.push("/login");
             }, duration * 1000);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [successMsg]);
     return (
         <Container>

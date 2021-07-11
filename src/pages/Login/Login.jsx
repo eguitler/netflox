@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import { Container, StyledForm } from "./LoginStyles";
 import { USER_LOGIN } from "store";
 
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth"
+
 import Cookies from "universal-cookie";
 import { useEffect } from "react";
 
@@ -31,13 +33,13 @@ const Login = ({ user, addUser }) => {
                 const date = new Date(Date.now())
                 date.setDate(date.getDate() + 10)
                 // create the cookie
-                // userCredential.user.updateProfile({displayName: "Ezequiel Guitler", pedo: "sasdfsd"})
                 cookie.set("user", userCredential.user.toJSON(), { path: "/", expires: date});
                 setTryToLogIn(false)
                 addUser(userCredential.user.toJSON());
             })
             .catch((error) => console.log(`Error: ${error}: ${error.message}`));
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[tryToLogIn])
     return (
         <Container>

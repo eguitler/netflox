@@ -7,7 +7,9 @@ import {
     StyledLogo,
     StyledUserActions,
 } from "./HeaderStyles";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth"
+
 import Dropdown from "components/Dropdown/Dropdown";
 import { connect } from "react-redux";
 import { USER_LOGOUT } from "store";
