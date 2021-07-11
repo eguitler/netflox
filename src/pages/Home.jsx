@@ -20,12 +20,28 @@ const Container = styled.div`
     overflow-x: hidden;
     padding-bottom: 80px;
 
-    .title {
-        font-weight: 100;
+    .title-wrapper {
+        width: 100%;
+        display: grid;
+        place-items: center;
+        margin-top: 15px;
 
-        span {
-            font-weight: 500;
-            /* text-decoration: underline; */
+        .title {
+            font-weight: 100;
+            text-align: center;
+            
+            .full-name {
+                font-weight: 500;
+            }
+            
+            .second-sentence {
+                margin-left: 1ch;
+                
+                @media screen and (max-width: 600px) {
+                    margin-left: 0;
+                    font-size: 1.2rem;;
+                }
+            }
         }
     }
 `;
@@ -63,9 +79,22 @@ const Home = ({ user, premiereList, watchLaterList, modal }) => {
     return (
         <>
             <Container>
-                <h1 className='title'>
-                    Hi <span>{user.displayName}</span>! Your favourites movies are waiting for you!
-                </h1>
+                <div className="title-wrapper">
+                    <h1 className="title">
+                        <div>
+                            Hi{" "}
+                            <span className="full-name">
+                                {user.displayName}
+                            </span>
+                            !
+                        </div>
+                        <div>
+                            <span className="second-sentence">
+                                Your favourites movies are waiting for you!{" "}
+                            </span>
+                        </div>
+                    </h1>
+                </div>
                 <MoviesList
                     title={premiereList.title}
                     movies={premiereList.movies}

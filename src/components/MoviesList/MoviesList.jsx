@@ -28,7 +28,13 @@ const LoadingItem = styled.div`
     }
 `;
 
-const MoviesList = ({ title, movies, dataLoaded, infinite=false, responsive = null }) => {
+const MoviesList = ({
+    title,
+    movies,
+    dataLoaded,
+    infinite = false,
+    responsive = null,
+}) => {
     const loadingItems = [
         <LoadingItem id={Math.random()} />,
         <LoadingItem id={Math.random()} />,
@@ -99,8 +105,8 @@ const MoviesList = ({ title, movies, dataLoaded, infinite=false, responsive = nu
         return itemsPerPageTmp;
     };
 
-    infinite = infinite && movies.length > getCurrentItemsCount();
     const touchSupport = window.innerWidth <= 1024;
+    infinite = infinite && movies.length > getCurrentItemsCount() && !touchSupport;
     const carouselRef = useRef();
     return (
         <div style={{ width: "90%" }}>
@@ -117,13 +123,11 @@ const MoviesList = ({ title, movies, dataLoaded, infinite=false, responsive = nu
                         arrows={false}
                         removeArrowOnDeviceType={["tablet", "mobile"]}
                         customButtonGroup={
-                            // infinite && (
-                                <ButtonGroup
-                                    totalItems={movies.length}
-                                    carouselRef={carouselRef}
-                                    infinite={infinite}
-                                />
-                            // )
+                            <ButtonGroup
+                                totalItems={movies.length}
+                                carouselRef={carouselRef}
+                                infinite={infinite}
+                            />
                         }
                         additionalTransfrom={0}
                         showDots={false}
