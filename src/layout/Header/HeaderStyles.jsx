@@ -151,6 +151,7 @@ export const StyledUserActions = styled.div`
     gap: 20px;
     justify-content: flex-end;
     flex-grow: 1;
+    z-index: 10;
 
     & .search-wrapper {
         & .search-form {
