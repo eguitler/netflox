@@ -24,12 +24,13 @@ const ButtonGroup = ({
     const nextButtonRef = useRef();
 
     const handleNext = () => {
-        if (!firstNextDone) setFirstNextDone(true);
-        nextButtonRef.current.setAttribute("disabled", true);
-
         const activeItems = currentIndex + slidesToShow;
         const restingItems = totalItems - activeItems;
+        
         if (!infinite && restingItems === 0) return;
+
+        if (!firstNextDone) setFirstNextDone(true);
+        nextButtonRef.current.setAttribute("disabled", true);
 
         const unitsForwards =
             restingItems >= slidesToShow || restingItems === 0
@@ -58,11 +59,11 @@ const ButtonGroup = ({
     };
 
     const handlePrev = () => {
-        prevButtonRef.current.setAttribute("disabled", true);
-
         const restingItems = currentIndex;
-        if (!infinite && restingItems === 0) return;
+        if ((!infinite && restingItems === 0) || !firstNextDone) return;
 
+        prevButtonRef.current.setAttribute("disabled", true);
+        
         const unitsBackwards =
             restingItems >= slidesToShow || restingItems === 0
                 ? slidesToShow
@@ -104,20 +105,24 @@ const ButtonGroup = ({
                             />
                         ))}
             </PaginationPages>
-            <Button
-                ref={prevButtonRef}
-                className={`left ${prevDisabled ? "disabled" : ""}`}
-                onClick={() => handlePrev()}
-            >
-                <img src="icons/arrow.svg" alt="" />
-            </Button>
-            <Button
-                ref={nextButtonRef}
-                className={"right"}
-                onClick={() => handleNext()}
-            >
-                <img src="icons/arrow.svg" alt="" />
-            </Button>
+            {totalItems > slidesToShow && (
+                <>
+                    <Button
+                        ref={prevButtonRef}
+                        className={`left ${prevDisabled ? "disabled" : ""}`}
+                        onClick={() => handlePrev()}
+                    >
+                        <img src="icons/arrow.svg" alt="" />
+                    </Button>
+                    <Button
+                        ref={nextButtonRef}
+                        className={"right"}
+                        onClick={() => handleNext()}
+                    >
+                        <img src="icons/arrow.svg" alt="" />
+                    </Button>
+                </>
+            )}
         </>
     );
 };

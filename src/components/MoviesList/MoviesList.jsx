@@ -8,6 +8,7 @@ import "react-multi-carousel/lib/styles.css";
 import { Title, CarouselWrapper } from "./MoviesListStyles";
 import ButtonGroup from "./ButtonGroup";
 import { useRef } from "react";
+import { isMobile } from "react-device-detect";
 
 const LoadingItem = styled.div`
     border: 1px solid;
@@ -105,8 +106,7 @@ const MoviesList = ({
         return itemsPerPageTmp;
     };
 
-    const touchSupport = window.innerWidth <= 1024;
-    infinite = infinite && movies.length > getCurrentItemsCount() && !touchSupport;
+    infinite = infinite && movies.length > getCurrentItemsCount() && !isMobile;
     const carouselRef = useRef();
     return (
         <div style={{ width: "90%" }}>
@@ -117,8 +117,8 @@ const MoviesList = ({
                 <CarouselWrapper>
                     <Carousel
                         responsive={responsive}
-                        swipeable={touchSupport}
-                        draggable={touchSupport}
+                        swipeable={isMobile}
+                        draggable={isMobile}
                         infinite={infinite}
                         arrows={false}
                         removeArrowOnDeviceType={["tablet", "mobile"]}

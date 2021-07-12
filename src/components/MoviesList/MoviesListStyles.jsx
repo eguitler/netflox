@@ -26,7 +26,7 @@ export const Button = styled.button`
     width: var(--width);
 
     & > img {
-        height: 35px;
+        height: 45px;
         opacity: 0;
         filter: invert(0.9);
         pointer-events: none;
@@ -37,7 +37,6 @@ export const Button = styled.button`
         background-color: #232323 !important;
         right: 100% !important;
         cursor: default;
-        /* border: 1px solid; */
 
         & img {
             display: none;
@@ -71,9 +70,15 @@ export const Button = styled.button`
             transform: rotate(90deg);
         }
     }
+    @media (max-width: 1366px) {
+        & > img {
+        height: 35px;
+        }
+    }
     @media (max-width: 1024px) {
         display: none;
         visibility: hidden;
+
     }
 `;
 
