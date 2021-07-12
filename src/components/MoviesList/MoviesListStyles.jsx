@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+    width: 90%;
+
+    @media screen and (max-width: 768px) {
+        width: 85%;
+    }
+`;
+
 export const Title = styled.div`
     font-size: 1.5rem;
 `;
@@ -71,14 +79,24 @@ export const Button = styled.button`
         }
     }
     @media (max-width: 1366px) {
+        &.right {
+            left: calc(100% - 2px);
+        }
         & > img {
-        height: 35px;
+            height: 35px;
         }
     }
-    @media (max-width: 1024px) {
-        display: none;
-        visibility: hidden;
 
+    @media (max-width: 768px) {
+        &.left {
+            padding-right: 4px;
+        }
+        &.right {
+            padding-left: 8px;
+        }
+        & > img {
+            height: 25px;
+        }
     }
 `;
 

@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useState } from "react";
+import { isMobile } from "react-device-detect";
 import { Button, PaginationPages } from "./MoviesListStyles";
 
 const ButtonGroup = ({
@@ -105,7 +106,7 @@ const ButtonGroup = ({
                             />
                         ))}
             </PaginationPages>
-            {totalItems > slidesToShow && (
+            {((totalItems > slidesToShow) && !isMobile) && (
                 <>
                     <Button
                         ref={prevButtonRef}

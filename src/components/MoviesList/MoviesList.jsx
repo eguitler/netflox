@@ -5,10 +5,9 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-import { Title, CarouselWrapper } from "./MoviesListStyles";
+import { Container, Title, CarouselWrapper } from "./MoviesListStyles";
 import ButtonGroup from "./ButtonGroup";
 import { useRef } from "react";
-import { isMobile } from "react-device-detect";
 
 const LoadingItem = styled.div`
     border: 1px solid;
@@ -47,7 +46,7 @@ const MoviesList = ({
         <LoadingItem id={Math.random()} />,
         <LoadingItem id={Math.random()} />,
     ];
-
+    
     responsive = responsive ?? {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },
@@ -106,10 +105,11 @@ const MoviesList = ({
         return itemsPerPageTmp;
     };
 
-    infinite = infinite && movies.length > getCurrentItemsCount() && !isMobile;
+    const touchSupport = window.innerWidth <= 1024;
+    infinite = infinite && movies.length > getCurrentItemsCount() && !touchSupport;
     const carouselRef = useRef();
     return (
-        <div style={{ width: "90%" }}>
+        <Container>
             <Title>
                 <h2>{title}</h2>
             </Title>
@@ -117,8 +117,8 @@ const MoviesList = ({
                 <CarouselWrapper>
                     <Carousel
                         responsive={responsive}
-                        swipeable={isMobile}
-                        draggable={isMobile}
+                        swipeable={touchSupport}
+                        draggable={touchSupport}
                         infinite={infinite}
                         arrows={false}
                         removeArrowOnDeviceType={["tablet", "mobile"]}
@@ -152,12 +152,11 @@ const MoviesList = ({
             ) : (
                 <div>
                     <p>
-                        This list is empty! You can add movies yout favourite
-                        movies here!
+                        This list is empty! You can add your favourite movies here!
                     </p>
                 </div>
             )}
-        </div>
+        </Container>
     );
 };
 
