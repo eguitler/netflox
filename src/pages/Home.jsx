@@ -113,7 +113,7 @@ const Home = ({ user, premiereList, watchLaterList, modal }) => {
                     itemRef={modal.ref}
                 />
             )}
-            {/* <Footer /> */}
+            <Footer />
         </>
     );
 };
