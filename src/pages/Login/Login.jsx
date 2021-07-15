@@ -78,7 +78,7 @@ const Login = ({ user, addUser }) => {
                 </div>
                 <div className="divider" />
                 <Link className="register-btn btn" to="/register">
-                    CREATE NEW ACCOUNT
+                    CREATE ACCOUNT
                 </Link>
             </StyledForm>
         </Container>

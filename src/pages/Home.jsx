@@ -48,25 +48,22 @@ const Container = styled.div`
 
 const Home = ({ user, premiereList, watchLaterList, modal }) => {
     const newUpdatesResponsive = {
-        superLargeDesktop: {
-            breakpoint: { max: 4000, min: 3000 },
-            items: 7,
-            slidesToSlide: 7,
+        3000: {
+            // items: 10,
+            slidesPerView: 7,
+            spaceBetween: 20,
         },
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 6,
-            slidesToSlide: 6,
+        1024: {
+            // items: 8,
+            slidesPerView: 6,
         },
-        tablet: {
-            breakpoint: { max: 1024, min: 469 },
-            items: 4,
-            slidesToSlide: 4,
+        469: {
+            // items: 5,
+            slidesPerView: 4,
         },
-        mobile: {
-            breakpoint: { max: 468, min: 0 },
-            items: 2,
-            slidesToSlide: 2,
+        0: {
+            // items: 2,
+            slidesPerView: 2,
         },
     };
     // replace this by custom hook
@@ -116,7 +113,7 @@ const Home = ({ user, premiereList, watchLaterList, modal }) => {
                     itemRef={modal.ref}
                 />
             )}
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

@@ -4,6 +4,7 @@ export const StyledMovie = styled.div`
     position: relative;
     cursor: pointer;
     margin-right: 5px;
+
     & .movie-cover {
         width: 100%;
         object-fit: cover;
@@ -18,4 +19,3 @@ export const StyledMovie = styled.div`
         left: 0;
     }
 `;
-

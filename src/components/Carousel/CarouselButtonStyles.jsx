@@ -1,28 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-    width: 90%;
-
-    & .swiper-class {
-        /* border: 1px solid; */
-        overflow: visible;
-        position: relative;
-        /* display: flex !important;
-        flex-direction: row;*/
-    } 
-
-
-    @media screen and (max-width: 768px) {
-        width: 85%;
-    }
-`;
-
-export const Title = styled.div`
-    font-size: 1.5rem;
-`;
-
-
-export const Button = styled.button`
+export const StyledCarouselButton = styled.button`
     cursor: pointer;
     position: absolute;
     border: none;
@@ -31,10 +9,11 @@ export const Button = styled.button`
     display: flex;
     align-items: center;
     top: 0;
+    bottom: 0;
     border-radius: 5px;
     --width: 100px;
 
-    height: 100%;
+    height: 101%; 
     width: var(--width);
 
     z-index: 3;
@@ -48,6 +27,11 @@ export const Button = styled.button`
     }
 
     &.disabled {
+        display: none;
+        visibility: hidden;
+    }
+
+    &.hidden {
         background-color: #232323 !important;
         right: 100% !important;
         cursor: default;
@@ -103,33 +87,5 @@ export const Button = styled.button`
         & > img {
             height: 25px;
         }
-    }
-`;
-
-export const PaginationPages = styled.div`
-    position: absolute;
-    top: -20px;
-    right: 6px;
-    width: 10vw;
-    height: 10px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 7px;
-
-    & .page {
-        background-color: rgba(255, 255, 255, 0.4);
-        height: 80%;
-        width: 20px;
-        transition: background-color 500ms;
-        border-radius: 2px;
-
-        &.active {
-            background-color: rgba(255, 255, 255, 0.85);
-        }
-    }
-
-    @media (max-width: 1024px) {
-        display: none;
-        visibility: hidden;
     }
 `;

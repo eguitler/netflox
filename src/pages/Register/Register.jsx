@@ -22,7 +22,6 @@ const Register = () => {
 
     function validate() {
         const errorMsgs = [];
-        console.log("ASD: ", fullName.length);
         if (fullName.length < 4) {
             errorMsgs.push("Full name must be at least 4 chars");
         }

@@ -3,15 +3,6 @@ import styled from "styled-components";
 export const Container = styled.div`
     width: 90%;
 
-    & .swiper-class {
-        /* border: 1px solid; */
-        overflow: visible;
-        position: relative;
-        /* display: flex !important;
-        flex-direction: row;*/
-    } 
-
-
     @media screen and (max-width: 768px) {
         width: 85%;
     }
@@ -21,6 +12,54 @@ export const Title = styled.div`
     font-size: 1.5rem;
 `;
 
+export const CarouselWrapper = styled.div`
+        scroll-snap-type: none !important;
+        scroll-padding-inline: 50px !important;
+
+        scroll-snap-stop: normal !important;
+        scroll-snap-align: none !important;
+        scroll-margin: 100px !important;
+    .carousel-container {
+        overflow: visible;
+        border: 4px solid yellow;
+        scroll-snap-type: none !important;
+        scroll-padding-inline: 50px !important;
+
+        scroll-snap-stop: normal !important;
+        scroll-snap-align: none !important;
+        scroll-margin: 100px !important;
+    }
+
+    & .carousel-class {
+        border: 4px solid;
+        scroll-snap-type: none !important;
+        scroll-padding-inline: 50px !important;
+
+        scroll-snap-stop: normal !important;
+        scroll-snap-align: none !important;
+        scroll-margin: 100px !important;
+    }
+
+    & .slider-class {
+        border: 4px solid red;
+        scroll-snap-type: none !important;
+        scroll-padding-inline: 50px !important;
+
+        scroll-snap-stop: normal !important;
+        scroll-snap-align: none !important;
+        scroll-margin: 100px !important;
+
+    }
+    & .item-class {
+        border: 4px solid blue;
+        scroll-snap-type: none !important;
+        scroll-padding-inline: 50px !important;
+
+        scroll-snap-stop: normal !important;
+        scroll-snap-align: none !important;
+        scroll-margin: 100px !important;
+    }
+`;
 
 export const Button = styled.button`
     cursor: pointer;
@@ -36,8 +75,6 @@ export const Button = styled.button`
 
     height: 100%;
     width: var(--width);
-
-    z-index: 3;
 
     & > img {
         height: 45px;
@@ -104,6 +141,21 @@ export const Button = styled.button`
             height: 25px;
         }
     }
+`;
+
+export const Items = styled.article`
+    position: relative;
+    & .items-wrapper {
+        height: 100%;
+        display: flex;
+        justify-content: left;
+        gap: 10px;
+    }
+`;
+
+export const Item = styled.article`
+    min-width: ${props => `${props.coverW}px`};
+    width: ${props => `${props.coverW}px`};
 `;
 
 export const PaginationPages = styled.div`

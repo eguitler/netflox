@@ -10,14 +10,15 @@ const ButtonGroup = ({
     carouselRef,
     infinite,
 }) => {
-    const { currentSlide, slidesToShow } = carouselState;
+    const { slidesToShow } = carouselState;
+    const { currentSlide } = carouselState;
 
     const [firstNextDone, setFirstNextDone] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const [currentPage, setCurrentPage] = useState(0);
 
-    const prevDisabled = !firstNextDone && currentIndex === 0;
+    const prevDisabled = !firstNextDone;
 
     const countPages = Math.ceil(totalItems / slidesToShow);
 
@@ -27,7 +28,7 @@ const ButtonGroup = ({
     const handleNext = () => {
         const activeItems = currentIndex + slidesToShow;
         const restingItems = totalItems - activeItems;
-        
+
         if (!infinite && restingItems === 0) return;
 
         if (!firstNextDone) setFirstNextDone(true);
@@ -37,15 +38,16 @@ const ButtonGroup = ({
             restingItems >= slidesToShow || restingItems === 0
                 ? slidesToShow
                 : restingItems;
+
         const newIndex =
             currentIndex + unitsForwards < totalItems
                 ? currentIndex + unitsForwards
                 : 0;
-
+        
         const newPage = currentPage + 1 > countPages - 1 ? 0 : currentPage + 1;
         setCurrentPage(newPage);
 
-        carouselRef.current.listRef.current.addEventListener(
+        carouselRef.current.swiper.el.addEventListener(
             "transitionend",
             () => {
                 nextButtonRef.current.removeAttribute("disabled");
@@ -54,8 +56,10 @@ const ButtonGroup = ({
                 once: true,
             }
         );
-
-        goToSlide(currentSlide + unitsForwards);
+            // console.log("INDEX: ", newIndex, ' -- SLIDE: ', currentSlide)
+        console.log("PEDO: ", carouselRef.current.swiper.activeIndex)
+        const currentSlideDos = carouselRef.current.swiper.activeIndex
+        carouselRef.current.swiper.slideToLoop(currentSlideDos + unitsForwards, 300);
         setCurrentIndex(newIndex);
     };
 
@@ -77,7 +81,7 @@ const ButtonGroup = ({
         const newPage = currentPage - 1 < 0 ? countPages - 1 : currentPage - 1;
         setCurrentPage(newPage);
 
-        carouselRef.current.listRef.current.addEventListener(
+        carouselRef.current.swiper.el.addEventListener(
             "transitionend",
             () => {
                 prevButtonRef.current.removeAttribute("disabled");
@@ -87,7 +91,7 @@ const ButtonGroup = ({
             }
         );
 
-        goToSlide(currentSlide - unitsBackwards);
+        carouselRef.current.swiper.slideToLoop(newIndex, 300);
         setCurrentIndex(newIndex);
     };
 
