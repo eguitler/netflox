@@ -13,7 +13,7 @@ export const StyledCarouselButton = styled.button`
     border-radius: 5px;
     --width: 100px;
 
-    height: 101%; 
+    height: 100.1%; 
     width: var(--width);
 
     z-index: 3;
@@ -50,7 +50,7 @@ export const StyledCarouselButton = styled.button`
     }
 
     &.right {
-        left: calc(100% - 3px);
+        left: calc(100%);
         justify-content: flex-start;
         padding-left: 12px;
 

@@ -42,17 +42,6 @@ const MoviesList = ({
     infinite = false,
     responsive = null,
 }) => {
-    const loadingItems = [
-        <LoadingItem id={Math.random()} />,
-        <LoadingItem id={Math.random()} />,
-        <LoadingItem id={Math.random()} />,
-        <LoadingItem id={Math.random()} />,
-        <LoadingItem id={Math.random()} />,
-        <LoadingItem id={Math.random()} />,
-        <LoadingItem id={Math.random()} />,
-        <LoadingItem id={Math.random()} />,
-        <LoadingItem id={Math.random()} />,
-    ];
 
     responsive = responsive ?? {
         3000: {
@@ -115,6 +104,7 @@ const MoviesList = ({
         } else {
             setNextHidden(true);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [movies.length]);
 
     return (
