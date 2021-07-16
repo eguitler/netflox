@@ -3,12 +3,12 @@
 import React, { useEffect } from "react";
 import Footer from "layout/Footer/Footer";
 import { connect, useDispatch } from "react-redux";
-import MoviesList from "components/MoviesList/MoviesList";
 import styled from "styled-components";
 
 import { getNewUploads } from "services/movies";
 import { initMovies } from "store";
 import MoviePreviewMiniModal from "components/MoviePreviewMiniModal/MoviePreviewMiniModal";
+import Carousel from "components/Carousel/Carousel";
 
 const Container = styled.div`
     width: 100%;
@@ -29,17 +29,17 @@ const Container = styled.div`
         .title {
             font-weight: 100;
             text-align: center;
-            
+
             .full-name {
                 font-weight: 500;
             }
-            
+
             .second-sentence {
                 margin-left: 1ch;
-                
+
                 @media screen and (max-width: 600px) {
                     margin-left: 0;
-                    font-size: 1.2rem;;
+                    font-size: 1.2rem;
                 }
             }
         }
@@ -49,20 +49,16 @@ const Container = styled.div`
 const Home = ({ user, premiereList, watchLaterList, modal }) => {
     const newUpdatesResponsive = {
         3000: {
-            // items: 10,
             slidesPerView: 7,
             spaceBetween: 20,
         },
         1024: {
-            // items: 8,
             slidesPerView: 6,
         },
         469: {
-            // items: 5,
             slidesPerView: 4,
         },
         0: {
-            // items: 2,
             slidesPerView: 2,
         },
     };
@@ -92,14 +88,14 @@ const Home = ({ user, premiereList, watchLaterList, modal }) => {
                         </div>
                     </h1>
                 </div>
-                <MoviesList
+                <Carousel
                     title={premiereList.title}
                     movies={premiereList.movies}
                     dataLoaded={premiereList.loaded}
                     responsive={newUpdatesResponsive}
                     infinite={true}
                 />
-                <MoviesList
+                <Carousel
                     title={watchLaterList.title}
                     movies={watchLaterList.movies}
                     dataLoaded={premiereList.loaded}

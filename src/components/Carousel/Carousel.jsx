@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { useRef } from "react";
-import { Container, Title } from "./MoviesListStyles";
+import { Container, Title } from "./CarouselStyles";
 
 import Movie from "components/Movie/Movie";
 import CarouselButton from "components/Carousel/CarouselButton";
@@ -35,7 +35,7 @@ const LoadingItem = styled.div`
     }
 `;
 
-const MoviesList = ({
+const Carousel = ({
     title,
     movies,
     dataLoaded,
@@ -187,4 +187,4 @@ const MoviesList = ({
     );
 };
 
-export default MoviesList;
+export default Carousel;
