@@ -151,9 +151,10 @@ export const StyledMiniModal = styled.div`
     & .buttons-wrapper {
         display: flex;
         justify-content: space-between;
-        gap: 40px;
-        padding-right: 20px;
-        align-items: center;
+        gap: 30px;
+        /* padding-right: 20px; */
+        /* align-items: center; */
+        transition: all 0.3s;
 
         --invertColor: invert(37%) sepia(99%) saturate(548%) hue-rotate(210deg)
             brightness(79%) contrast(96%);
@@ -219,19 +220,27 @@ export const StyledMiniModal = styled.div`
             cursor: pointer;
 
             opacity: 1;
-            transition: all 0.5s;
+            transition: all 0.3s;
+            min-width: 60px;
 
             & img {
                 height: 20px;
                 filter: invert(62%) sepia(48%) saturate(586%) hue-rotate(204deg)
                     brightness(103%) contrast(109%);
-                transition: all 0.3s;
             }
-            
-            & img.tick {
-                height: 20px;
-                filter: var(--invertGreenColor);
-                transition: all 0.3s;
+
+            &.tick {
+                color: #2db225;
+                & img {
+                    filter: var(--invertGreenColor);
+                }
+            }
+            &.remove {
+                color: #f56161;
+                & img {
+                    filter: invert(62%) sepia(16%) saturate(7049%)
+                        hue-rotate(321deg) brightness(99%) contrast(93%);
+                }
             }
         }
     }

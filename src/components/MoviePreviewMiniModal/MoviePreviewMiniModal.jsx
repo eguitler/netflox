@@ -29,9 +29,10 @@ const MoviePreviewMiniModal = ({
 
     const [movieData, setMovieData] = useState(emptyData);
     const [dataLoaded, setDataLoaded] = useState(false);
+    const [showRemoveBtn, setShowRemoveBtn] = useState(false);
 
     const width = 360;
-    const extraHeight = movieData.title.length > 30 ? 30 : 0
+    const extraHeight = movieData.title.length > 30 ? 40 : 0;
     const height =
         itemRef.getBoundingClientRect().height > 440
             ? itemRef.getBoundingClientRect().height + extraHeight
@@ -61,6 +62,10 @@ const MoviePreviewMiniModal = ({
         setMovieData({ ...movieData, watchLater: false });
         closeModal();
     };
+
+    const handleHoverTick = () => {
+
+    }
 
     const getRating = (originalRating = 0) => {
         const newRating = Math.round(originalRating / 2);
@@ -119,32 +124,28 @@ const MoviePreviewMiniModal = ({
             <div className="media-info-wrapper">
                 <div className="media-wrapper">
                     <div className="trailer-wrapper">
-
-
                         {dataLoaded ? (
-                    movieData.yt_trailer_code ? (
-                            <iframe
-                                title="Trailer"
-                                src={`https://www.youtube.com/embed/${movieData.yt_trailer_code}?autoplay=1`}
-                                frameborder="0"
-                                allow="fullscreen"
-                            ></iframe>
-                    ) : movieData.background_image ? (
-                        <img
-                            className="img-bg"
-                            src={movieData.background_image}
-                            alt=""
-                        />
-                    ) : (
-                        <p>TRAILER NOT AVAILABLE</p>
-                    )
-                ) : (
-                    <div className="loading-spinner">
-                        <img src="loading-spinner.gif" alt="" />
-                    </div>
-                )}
-
-
+                            movieData.yt_trailer_code ? (
+                                <iframe
+                                    title="Trailer"
+                                    src={`https://www.youtube.com/embed/${movieData.yt_trailer_code}?autoplay=1`}
+                                    frameborder="0"
+                                    allow="fullscreen"
+                                ></iframe>
+                            ) : movieData.background_image ? (
+                                <img
+                                    className="img-bg"
+                                    src={movieData.background_image}
+                                    alt=""
+                                />
+                            ) : (
+                                <p>TRAILER NOT AVAILABLE</p>
+                            )
+                        ) : (
+                            <div className="loading-spinner">
+                                <img src="loading-spinner.gif" alt="" />
+                            </div>
+                        )}
                     </div>
                     <div className="cover-wrapper">
                         <img src={movieData.medium_cover_image} alt="" />
@@ -187,19 +188,21 @@ const MoviePreviewMiniModal = ({
                     Download
                 </button>
                 {movieData.watchLater ? (
-                    <button className="btn-icon-description">
+                    <button
+                        className={`btn-icon-description ${showRemoveBtn ? "remove" : "tick"}`}
+                        onMouseOver={() => setShowRemoveBtn(true)}
+                        onMouseLeave={() => setShowRemoveBtn(false)}
+                    >
                         <img
-                            className="tick"
-                            src="icons/tick.png"
+                            src={showRemoveBtn ? "icons/close.svg" : "icons/tick.png"}
                             alt=""
                             onClick={() => handleRemoveFromWatchLater()}
                         />
-                        Remove
+                        {showRemoveBtn ? "Remove" : "Added"}
                     </button>
                 ) : (
                     <button className="btn-icon-description">
                         <img
-                            className="add"
                             src="icons/plus.png"
                             alt=""
                             onClick={() => handleAddToWatchLater()}
