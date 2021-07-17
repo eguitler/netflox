@@ -77,7 +77,7 @@ const Carousel = ({
     const itemsPerPage = getCurrentItemsCount();
 
     const touchSupport = window.innerWidth <= 1024;
-    infinite = infinite && movies.length > itemsPerPage && !touchSupport;
+    infinite = infinite && movies?.length > itemsPerPage && !touchSupport;
 
     const [prevHidden, setPrevHidden] = useState(true);
     const [nextHidden, setNextHidden] = useState(false);

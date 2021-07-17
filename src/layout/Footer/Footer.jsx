@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
     return (
-        <div style={{ height: "100px", display: "grid", placeItems: "center", backgroundColor: '#111'}}>
+        <div style={{ marginTop: "100px", height: "100px", display: "grid", placeItems: "center", backgroundColor: '#111'}}>
             <p>
                 Designed and developed by{" "}
                 <a

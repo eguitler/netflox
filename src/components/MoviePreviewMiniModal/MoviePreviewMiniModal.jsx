@@ -22,8 +22,6 @@ const MoviePreviewMiniModal = ({
     const emptyData = {
         title: "Loading data...",
         yt_trailer_code: "",
-        torrents: [],
-        torrent: { url: "", size: "" },
         year: "",
         genres: [],
         description_intro: "",
@@ -32,11 +30,12 @@ const MoviePreviewMiniModal = ({
     const [movieData, setMovieData] = useState(emptyData);
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    const width = 350;
+    const width = 360;
+    const extraHeight = movieData.title.length > 30 ? 30 : 0
     const height =
-        itemRef.getBoundingClientRect().height > 400
-            ? itemRef.getBoundingClientRect().height
-            : 400;
+        itemRef.getBoundingClientRect().height > 440
+            ? itemRef.getBoundingClientRect().height + extraHeight
+            : 440 + extraHeight;
 
     const diffV = (height - info.height) / 2;
     const [posTop, setPosTop] = useState(info.top - diffV);
@@ -63,6 +62,28 @@ const MoviePreviewMiniModal = ({
         closeModal();
     };
 
+    const getRating = (originalRating = 0) => {
+        const newRating = Math.round(originalRating / 2);
+        return (
+            <>
+                {Array(newRating).fill(
+                    <img
+                        className="star star-full"
+                        src="icons/full-star.png"
+                        alt=""
+                    ></img>
+                )}
+                {Array(5 - newRating).fill(
+                    <img
+                        className="star star-empty"
+                        src="icons/empty-star.png"
+                        alt=""
+                    ></img>
+                )}
+            </>
+        );
+    };
+
     useEffect(() => {
         if (!isMobile) {
             window.addEventListener(
@@ -79,7 +100,6 @@ const MoviePreviewMiniModal = ({
         getMovieDetails(id).then((data) => {
             setMovieData({
                 ...data,
-                torrent: data.torrents[0],
                 watchLater: Boolean(
                     watchLater.find((movie) => movie.id === data.id)
                 ),
@@ -96,13 +116,19 @@ const MoviePreviewMiniModal = ({
             onMouseLeave={() => closeModal()}
             ref={modalRef}
         >
-            <div className="trailer-wrapper">
-                {dataLoaded ? (
+            <div className="media-info-wrapper">
+                <div className="media-wrapper">
+                    <div className="trailer-wrapper">
+
+
+                        {dataLoaded ? (
                     movieData.yt_trailer_code ? (
-                        <iframe
-                            title="Trailer"
-                            src={`https://www.youtube.com/embed/${movieData.yt_trailer_code}`}
-                        ></iframe>
+                            <iframe
+                                title="Trailer"
+                                src={`https://www.youtube.com/embed/${movieData.yt_trailer_code}?autoplay=1`}
+                                frameborder="0"
+                                allow="fullscreen"
+                            ></iframe>
                     ) : movieData.background_image ? (
                         <img
                             className="img-bg"
@@ -117,49 +143,70 @@ const MoviePreviewMiniModal = ({
                         <img src="loading-spinner.gif" alt="" />
                     </div>
                 )}
-            </div>
-            <div className="info-description">
-                <div className="title-genres-wrapper">
-                    <p className="title" title={movieData.title}>
-                        {movieData.title}
-                    </p>
+
+
+                    </div>
+                    <div className="cover-wrapper">
+                        <img src={movieData.medium_cover_image} alt="" />
+                    </div>
+                </div>
+                <div className="info-description">
+                    <div className="title-close-wrapper">
+                        <p className="title" title={movieData.title}>
+                            {movieData.title}
+                        </p>
+                        <div className="close-wrapper">
+                            <img
+                                className="close"
+                                src="icons/close.svg"
+                                alt=""
+                                onClick={() => closeModal()}
+                            />
+                        </div>
+                    </div>
                     <div className="year-genres">
                         <p>{movieData.year}</p>
                         {movieData.genres.slice(0, 3).map((genre, i) => (
                             <p key={i}>{genre}</p>
                         ))}
                     </div>
+                    <div className="rating">{getRating(movieData.rating)}</div>
+                    <div className="description">
+                        <p>{movieData.description_intro}</p>
+                    </div>
                 </div>
-                <div className="description">
-                    <p>{movieData.description_intro}</p>
-                </div>
-                <div className="buttons-wrapper">
-                    <a
-                        href={movieData.torrent.url}
-                        className={!movieData.torrent ? "disabled" : ""}
-                        download
-                    >
-                        <img src="icons/download.svg" alt="" />
-                        {movieData.torrent
-                            ? `.torrent (${movieData.torrent.size})`
-                            : "NO TORRENT"}
-                    </a>
-                    {movieData.watchLater ? (
+            </div>
+            <div className="buttons-wrapper">
+                {/* <a href="/#">Watch</a> */}
+                <button className="btn btn-primary">
+                    <img src="icons/triangle-filled.png" alt="" />
+                    Watch
+                </button>
+                <button className="btn-icon-description">
+                    <img src="icons/download.png" alt="" />
+                    Download
+                </button>
+                {movieData.watchLater ? (
+                    <button className="btn-icon-description">
                         <img
-                            className="icon tick"
-                            src="icons/tick.svg"
+                            className="tick"
+                            src="icons/tick.png"
+                            alt=""
                             onClick={() => handleRemoveFromWatchLater()}
-                            alt=""
                         />
-                    ) : (
+                        Remove
+                    </button>
+                ) : (
+                    <button className="btn-icon-description">
                         <img
-                            className="icon add"
-                            src="icons/add.svg"
-                            onClick={() => handleAddToWatchLater()}
+                            className="add"
+                            src="icons/plus.png"
                             alt=""
+                            onClick={() => handleAddToWatchLater()}
                         />
-                    )}
-                </div>
+                        Add
+                    </button>
+                )}
             </div>
         </StyledMiniModal>
     );
