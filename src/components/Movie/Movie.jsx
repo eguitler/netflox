@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { connect } from "react-redux";
-import { isMobile } from "react-device-detect";
+import { isDesktop, isMobile, isTablet } from "react-device-detect";
 
 import { MODAL_OPEN, MODAL_CLOSE } from "store";
 import { StyledMovie } from "./MovieStyles";
@@ -41,8 +41,8 @@ const Movie = ({
 
     return (
         <StyledMovie
-            onMouseOver={isMobile ? undefined : () => handleHover()}
-            onClick={isMobile ? () => handleClick() : undefined}
+            onMouseOver={isDesktop && window.innerWidth > 768 ? () => handleHover() : undefined}
+            onClick={isMobile || isTablet || (isDesktop && window.innerWidth <= 768) ? () => handleClick() : undefined}
             ref={movieRef}
         >
             <img

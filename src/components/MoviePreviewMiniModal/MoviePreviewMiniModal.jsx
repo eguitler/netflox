@@ -1,13 +1,14 @@
-import React from "react";
-import { StyledMiniModal } from "./MoviePreviewMiniModalStyles";
+import React, { useEffect, useState, useRef } from "react";
+import { isDesktop, isMobile, isTablet } from "react-device-detect";
 import { connect } from "react-redux";
-import { ADD_TO_WATCH_LATER, REMOVE_FROM_WATCH_LATER } from "store";
-import { MODAL_CLOSE } from "store";
-import { useEffect } from "react";
+
 import { getMovieDetails } from "services/movies";
-import { useState } from "react";
-import { useRef } from "react";
-import { isMobile } from "react-device-detect";
+import { StyledMiniModal } from "./MoviePreviewMiniModalStyles";
+import {
+    ADD_TO_WATCH_LATER,
+    REMOVE_FROM_WATCH_LATER,
+    MODAL_CLOSE,
+} from "store";
 
 const MoviePreviewMiniModal = ({
     id,
@@ -60,12 +61,8 @@ const MoviePreviewMiniModal = ({
     const handleRemoveFromWatchLater = () => {
         removeFromWatchLater(movieData.id);
         setMovieData({ ...movieData, watchLater: false });
-        closeModal();
+        if (window.innerWidth > 768) closeModal();
     };
-
-    const handleHoverTick = () => {
-
-    }
 
     const getRating = (originalRating = 0) => {
         const newRating = Math.round(originalRating / 2);
@@ -118,7 +115,11 @@ const MoviePreviewMiniModal = ({
             height={height}
             posLeft={posLeft}
             posTop={posTop}
-            onMouseLeave={() => closeModal()}
+            onMouseLeave={
+                isMobile || isTablet || (isDesktop && window.innerWidth > 768)
+                    ? () => closeModal()
+                    : undefined
+            }
             ref={modalRef}
         >
             <div className="media-info-wrapper">
@@ -189,24 +190,29 @@ const MoviePreviewMiniModal = ({
                 </button>
                 {movieData.watchLater ? (
                     <button
-                        className={`btn-icon-description ${showRemoveBtn ? "remove" : "tick"}`}
+                        className={`btn-icon-description ${
+                            showRemoveBtn ? "remove" : "tick"
+                        }`}
                         onMouseOver={() => setShowRemoveBtn(true)}
                         onMouseLeave={() => setShowRemoveBtn(false)}
+                        onClick={() => handleRemoveFromWatchLater()}
                     >
                         <img
-                            src={showRemoveBtn ? "icons/close.svg" : "icons/tick.png"}
+                            src={
+                                showRemoveBtn
+                                    ? "icons/close.svg"
+                                    : "icons/tick.png"
+                            }
                             alt=""
-                            onClick={() => handleRemoveFromWatchLater()}
                         />
                         {showRemoveBtn ? "Remove" : "Added"}
                     </button>
                 ) : (
-                    <button className="btn-icon-description">
-                        <img
-                            src="icons/plus.png"
-                            alt=""
-                            onClick={() => handleAddToWatchLater()}
-                        />
+                    <button
+                        className="btn-icon-description"
+                        onClick={() => handleAddToWatchLater()}
+                    >
+                        <img src="icons/plus.png" alt="" />
                         Add
                     </button>
                 )}

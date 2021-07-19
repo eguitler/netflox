@@ -45,20 +45,16 @@ const Carousel = ({
 
     responsive = responsive ?? {
         3000: {
-            // items: 10,
-            slidesPerView: 10,
+            slidesPerView: 9,
             spaceBetween: 20,
         },
         1024: {
-            // items: 8,
-            slidesPerView: 9,
+            slidesPerView: 8,
         },
         469: {
-            // items: 5,
             slidesPerView: 3,
         },
         0: {
-            // items: 2,
             slidesPerView: 2,
         },
     };
@@ -74,7 +70,7 @@ const Carousel = ({
     };
 
     const swiperRef = useRef();
-    const itemsPerPage = getCurrentItemsCount();
+    const [itemsPerPage, setItemsPerPage] = useState(getCurrentItemsCount());
 
     const touchSupport = window.innerWidth <= 1024;
     infinite = infinite && movies?.length > itemsPerPage && !touchSupport;
@@ -104,6 +100,10 @@ const Carousel = ({
         } else {
             setNextHidden(true);
         }
+
+        window.addEventListener("resize", () => {
+            setItemsPerPage(getCurrentItemsCount())
+        })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [movies.length]);
 

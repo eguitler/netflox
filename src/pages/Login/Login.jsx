@@ -1,46 +1,43 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Container, StyledForm } from "./LoginStyles";
 import { USER_LOGIN } from "store";
 
 import firebase from "firebase/app";
-import "firebase/auth"
+import "firebase/auth";
 
 import Cookies from "universal-cookie";
-import { useEffect } from "react";
 
-const Login = ({ user, addUser }) => {
+const Login = ({ addUser }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const [tryToLogIn, setTryToLogIn] = useState(false)
+    const historical = useHistory();
 
     const handleAuth = (e) => {
         e.preventDefault();
-        setTryToLogIn(true)
-    };
-
-    useEffect(() => {
         const cookie = new Cookies();
-        if (tryToLogIn) {
-            firebase
+
+        firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then(async (userCredential) => {
                 // set expiration
-                const date = new Date(Date.now())
-                date.setDate(date.getDate() + 10)
+                const date = new Date(Date.now());
+                date.setDate(date.getDate() + 10);
                 // create the cookie
-                cookie.set("user", userCredential.user.toJSON(), { path: "/", expires: date});
-                setTryToLogIn(false)
+                cookie.set("user", userCredential.user.toJSON(), {
+                    path: "/",
+                    expires: date,
+                });
                 addUser(userCredential.user.toJSON());
+                historical.push("/");
             })
             .catch((error) => console.log(`Error: ${error}: ${error.message}`));
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[tryToLogIn])
+    };
+
     return (
         <Container>
             <div className="bg-overlay" />
@@ -87,9 +84,9 @@ const Login = ({ user, addUser }) => {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user
-    }
-}
+        user: state.user.user,
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {

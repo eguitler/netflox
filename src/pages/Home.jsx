@@ -56,7 +56,7 @@ const Home = ({ user, premiereList, watchLaterList, modal }) => {
             slidesPerView: 6,
         },
         469: {
-            slidesPerView: 4,
+            slidesPerView: 3,
         },
         0: {
             slidesPerView: 2,
