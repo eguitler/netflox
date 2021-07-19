@@ -152,6 +152,7 @@ export const StyledUserActions = styled.div`
     justify-content: flex-end;
     flex-grow: 1;
     z-index: 10;
+    /* border: 1px solid ; */
 
     & .search-wrapper {
         & .search-form {
@@ -173,6 +174,7 @@ export const StyledUserActions = styled.div`
                 font-size: 1.1rem;
                 padding-left: 50px;
                 pointer-events: none;
+                display: none;
             }
 
             & img {
@@ -181,7 +183,8 @@ export const StyledUserActions = styled.div`
                 z-index: 2;
 
                 &#zoomGlass {
-                    left: 10px;
+                    left: 2px;
+                    transition: left .3s;
                 }
                 &#close {
                     right: 10px;
@@ -193,8 +196,12 @@ export const StyledUserActions = styled.div`
                 border: 1px solid #777;
 
                 & input {
+                    display: block;
                     background-color: #111;
                     pointer-events: all;
+                }
+                & img#zoomGlass {
+                    left: 10px;
                 }
             }
         }

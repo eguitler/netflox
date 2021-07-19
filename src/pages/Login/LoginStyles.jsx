@@ -56,24 +56,26 @@ export const StyledForm = styled.form`
             padding-left: 40px;
             font-size: 1rem;
             transition: all 0.3s;
-            background-color: #333;
+            background-color: #333 !important;
             color: #f0f0f0;
-            
+            filter: invert(0);
+
             &::placeholder {
                 color: #999;
             }
-            
+
             &:focus {
                 border: 1.5px solid #777ec2;
                 box-shadow: 0 0 3px #777ec2;
             }
         }
 
-        & .icon {
+        & > .icon {
             filter: invert(.9);
             position: absolute;
             left: 12px;
             height: 20px;
+            z-index: 10;
         }
     }
     & > .btn {
