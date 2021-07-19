@@ -285,6 +285,7 @@ export const StyledMiniModal = styled.div`
 
         & .media-info-wrapper {
             flex-direction: row;
+            height: 100%;
 
             & .media-wrapper {
                 display: grid;
@@ -309,7 +310,6 @@ export const StyledMiniModal = styled.div`
             }
 
             & .info-description {
-                height: fit-content;
                 padding: 0;
                 padding-left: 10px;
                 gap: 0;
@@ -359,9 +359,9 @@ export const StyledMiniModal = styled.div`
             & .description {
                 margin-top: 10px;
                 height: 100%;
-
+                
                 & p {
-                    -webkit-line-clamp: 4 !important;
+                    -webkit-line-clamp: 6 !important;
                     font-size: 0.9rem !important;
                 }
             }
